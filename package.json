@@ -1,0 +1,31 @@
+{
+  "name": "catan",
+  "version": "1.0.0",
+  "description": "A simple settlers of catan unit placement AI",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lhunker/catan.git"
+  },
+  "keywords": [
+    "ai",
+    "catan",
+    "game"
+  ],
+  "author": "Lukas Hunker, Dan Murray, Brett Ammeson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lhunker/catan/issues"
+  },
+  "homepage": "https://github.com/lhunker/catan#readme",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.3"
+  }
+}
