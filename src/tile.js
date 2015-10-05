@@ -30,6 +30,6 @@ Tile.prototype.toString = function() {
         str += '\n';
     }
     return str;
-}
+};
 
 module.exports = Tile;
