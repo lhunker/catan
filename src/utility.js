@@ -3,7 +3,7 @@ var Tile = require('./tile.js');
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
 
 // TODO use environment variable for inclusion of harbors
-var boardWidth = 4;
+var boardWidth = 5;
 
 // Max Y coordinate for a given X value
 var columnHeights = {
@@ -70,8 +70,8 @@ Utility.prototype.createTiles = function() {
         row++;
         if (row >= columnHeights[column]) {
             row = 0;
-            if (column > 2) row = column - 2;
             column++;
+            if (column > 2) row = column - 2;
         }
     }
 
