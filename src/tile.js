@@ -12,4 +12,24 @@ function Tile(x, y, res, roll) {
     this.roll = roll;
 }
 
+Tile.prototype.toString = function() {
+    var str = 'Coordinates: ' + this.x + ', ' + this.y + '\n';
+    str += 'Resource: ' + this.resource + '\n';
+    str += 'Roll: ' + this.roll + '\nIntersections:\n';
+    for (var i = 0; i < 6; i++) {
+        var isect = this.intersections[i];
+        str += '    ' + i + ': ';
+        if (isect.length === undefined)
+            str += 'None';
+        else {
+            for (var j = 0; j < isect.length; j++) {
+                if (j !== 0) str += ', ';
+                str += '[x: ' + isect[j].x + ', y: ' + isect[j].y + ', point: ' + isect[j].hexPoint + ']';
+            }
+        }
+        str += '\n';
+    }
+    return str;
+}
+
 module.exports = Tile;

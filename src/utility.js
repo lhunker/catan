@@ -1,6 +1,6 @@
 var Tile = require('./tile.js');
 
-// See https://i.imgur.com/p8A7LuB.jpg for coordinate system
+// See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
 
 // TODO use environment variable for inclusion of harbors
 var boardWidth = 4;
@@ -33,11 +33,11 @@ Utility.prototype.createBoard = function() {
  */
 Utility.prototype.createTiles = function() {
     var resourceRemaining = [
-        'forest', ' forest', ' forest', ' forest',
-        'grain', ' grain', ' grain', ' grain',
-        'sheep', ' sheep', ' sheep', ' sheep',
-        'ore', ' ore', ' ore',
-        'brick', ' brick', ' brick',
+        'forest', 'forest', 'forest', 'forest',
+        'grain', 'grain', 'grain', 'grain',
+        'sheep', 'sheep', 'sheep', 'sheep',
+        'ore', 'ore', 'ore',
+        'brick', 'brick', 'brick',
         'desert'
     ];
 
@@ -65,7 +65,7 @@ Utility.prototype.createTiles = function() {
         if (resource !== 'desert') {
             roll = dieRemaining.splice(index, 1);
         }
-        tiles.push(new Tile(row, column, resource, roll));
+        tiles.push(new Tile(column, row, resource, roll));
         row++;
         if (row >= columnHeights[column]) {
             row = 0;
@@ -87,38 +87,38 @@ Utility.prototype.getIntersectionsForTile = function(tile) {
     var points = {};
 
     // Check for non-intersection edge points
-    if (tile.y === 0 && tile.x >= 2) {
-        points[5] = NaN;
-    }
-
     if (tile.y === 0 && tile.x <= 2) {
         points[0] = NaN;
     }
 
-    if (tile.x === 4) {
+    if (tile.y === 0 && tile.x >= 2) {
         points[1] = NaN;
     }
 
-    if (tile.x >= 2 && tile.y === columnHeights[tile.x] - 1) {
+    if (tile.x === 4) {
         points[2] = NaN;
     }
 
-    if (tile.x <= 2 && tile.y === columnHeights[tile.x] - 1) {
+    if (tile.x >= 2 && tile.y === columnHeights[tile.x] - 1) {
         points[3] = NaN;
     }
 
-    if (tile.x === 0) {
+    if (tile.x <= 2 && tile.y === columnHeights[tile.x] - 1) {
         points[4] = NaN;
+    }
+
+    if (tile.x === 0) {
+        points[5] = NaN;
     }
 
     // For each possible point
     for (var i = 0; i < 6; i++) {
         // If already set as non-intersection, skip
-        if (isNaN(points[i])) continue;
+        if (points.hasOwnProperty(i) && isNaN(points[i])) continue;
         points[i] = [];
         /* Coordinate black magic to calculate intersections
-         * I drew a pretty picture to figure this out
-         * https://i.imgur.com/p8A7LuB.jpg
+         * I drew a pretty picture to figure this out so you don't need to read the code
+         * https://i.imgur.com/Lj2sduV.jpg
          *
          * Essentially each consecutive point shares a neighbor, so this adds
          * them in groups of two
@@ -127,41 +127,48 @@ Utility.prototype.getIntersectionsForTile = function(tile) {
          * The other tile's hex point is calculated using whatever math equation fit
          * the numbers, again, reference the drawing/a hexagonal board for verification
          */
+         // Points 0, 1
         if (i < 2) {
-            if (tile.x + 1 < boardWidth && tile.y - 1 >= 0) {
-                points[i].push({x: tile.x + 1, y: tile.y - 1, hexPoint: 4 - i});
+            if (tile.y - 1 >= 0) {
+                points[i].push({x: tile.x, y: tile.y - 1, hexPoint: 4 - i});
             }
         }
 
+        // 1, 2
         if (0 < i && i < 3) {
             if (tile.x + 1 < boardWidth && tile.y < columnHeights[tile.x + 1]) {
                 points[i].push({x: tile.x + 1, y: tile.y, hexPoint: 5 - (i - 1)});
             }
         }
 
+        // 2, 3
         if (1 < i && i < 4) {
-            if (tile.y + 1 < columnHeights[tile.x]) {
-                points[i].push({x: tile.x, y: tile.y + 1, hexPoint: 5 * (i - 1)});
+            if (tile.x + 1 < boardWidth && tile.y + 1 < columnHeights[tile.x + 1]) {
+                points[i].push({x: tile.x + 1, y: tile.y + 1, hexPoint: (i - 2) * 5});
             }
         }
 
+        // 3, 4
         if (2 < i && i < 5) {
-            if (tile.x - 1 > 0 && tile.y < columnHeights[tile.x - 1]) {
-                points[i].push({x: tile.x - 1, y: tile.y, hexPoint: 1 - (i - 4)});
+            if (tile.y + 1 < columnHeights[tile.x]) {
+                points[i].push({x: tile.x, y: tile.y + 1, hexPoint: 4 - i});
             }
         }
 
-        if (3 < i && i < 6) {
-            if (tile.x - 1 > 0 && tile.y - 1 > 0) {
-                points[i].push({x: tile.x - 1, y: tile.y - 1, hexPoint: 2 - (i - 4)});
+        // 4, 5
+        if (i > 3) {
+            if (tile.x - 1 >= 0 && tile.y < columnHeights[tile.x - 1]) {
+                points[i].push({x: tile.x - 1, y: tile.y, hexPoint: ((i - 5) * -1) + 1});
             }
         }
-        
+
+        // 5, 0
         if (i % 5 === 0) {
-            if (tile.y - 1 > 0) {
-                points[i].push({x: tile.x, y: tile.y - 1, hexPoint: 2 + parseInt(i / 5)});
+            if (tile.x - 1 >= 0 && tile.y - 1 >= 0) {
+                points[i].push({x: tile.x - 1, y: tile.y - 1, hexPoint: Math.abs(i - 2)});
             }
         }
+
         points[i] = this.sortPoints(points[i]);
     }
     return points;
