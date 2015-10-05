@@ -10,8 +10,8 @@ var columnHeights = {
     0: 3,
     1: 4,
     2: 5,
-    3: 4,
-    4: 3
+    3: 5,
+    4: 5
 };
 
 function Utility() {
@@ -57,6 +57,7 @@ Utility.prototype.createTiles = function() {
     var tiles = [];
     var row = 0, column = 0;
     for (var i = 0; i < 19; i++) {
+        console.log(column + ', ' + row);
         var index = Math.floor(Math.random() * resourceRemaining.length);
         var resource = resourceRemaining.splice(index, 1);
         var roll = 0;
@@ -69,6 +70,7 @@ Utility.prototype.createTiles = function() {
         row++;
         if (row >= columnHeights[column]) {
             row = 0;
+            if (column > 2) row = column - 2;
             column++;
         }
     }
@@ -91,7 +93,8 @@ Utility.prototype.getIntersectionsForTile = function(tile) {
         points[0] = NaN;
     }
 
-    if (tile.y === 0 && tile.x >= 2) {
+    // Since board is curved, this defines the right edge
+    if (tile.x >= 2 && tile.x - tile.y === 2) {
         points[1] = NaN;
     }
 
