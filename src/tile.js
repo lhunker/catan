@@ -32,4 +32,12 @@ Tile.prototype.toString = function() {
     return str;
 };
 
+/**
+ * Get the indices of the tile for indexing
+ * @returns {{x: *, y: *}}
+ */
+Tile.prototype.getIndices = function getIndices(){
+    return {x: this.x, y: this.y};
+};
+
 module.exports = Tile;
