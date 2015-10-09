@@ -85,7 +85,7 @@ Board.prototype.roadAt = function roadAt(int1, int2){
 };
 
 /**
- * Returns the struture at the intersection
+ * Returns the structure at the intersection
  * @param intersection The intersection to look at. Assumes it has been generated in sorted order
  * @returns {*} The structure, or undefined if there is no structure at this location
  */

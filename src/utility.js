@@ -14,24 +14,21 @@ var columnHeights = {
     4: 5
 };
 
-function Utility() {
-}
-
 /**
  * Creates a complete board for Catan
  * @returns [] An array of tiles representing a whole board
  */
-Utility.prototype.createBoard = function() {
-    var tiles = this.createTiles();
-    tiles = this.locateIntersections(tiles);
+ function createBoard() {
+    var tiles = createTiles();
+    tiles = locateIntersections(tiles);
     return tiles;
-};
+}
 
 /**
  * Creates a random distribution of tiles
- * @return [{x, y, resource, probability}, ...] list of tiles
+ * @return [] list of tiles - {x, y, resource, probability}
  */
-Utility.prototype.createTiles = function() {
+function createTiles () {
     var resourceRemaining = [
         'forest', 'forest', 'forest', 'forest',
         'grain', 'grain', 'grain', 'grain',
@@ -76,16 +73,16 @@ Utility.prototype.createTiles = function() {
     }
 
     return tiles;
-};
+}
 
 /**
  * Gets a list of intersection points for a given tile
  * This relies mainly on black magic (AKA math and my art skills)
  * @param tile containing an X and Y coordinate
- * @returns {hexPoint: [], ...} arrays of points identifying intersections
- *                              using hex points of the given tile as keys
+ * @returns {*} arrays of points identifying intersections
+ *   using hex points of the given tile as keys {hexPoint: []}
  */
-Utility.prototype.getIntersectionsForTile = function(tile) {
+function getIntersectionsForTile(tile) {
     var points = {};
 
     // Check for non-intersection edge points
@@ -172,27 +169,43 @@ Utility.prototype.getIntersectionsForTile = function(tile) {
             }
         }
 
-        points[i] = this.sortPoints(points[i]);
+        points[i] = sortPoints(points[i]);
     }
     return points;
-};
+}
 
-Utility.prototype.sortPoints = function(points) {
-    // TODO this
+/**
+ * Sorts an array or points by x, then y, then hexPoint
+ * @param points an array of points with {x, y, hexPoint}
+ * @returns {*} The points sorted
+ */
+function sortPoints(points) {
+    points.sort(function(a, b){
+        if(a.x !== b.x){
+            return a.x - b.x;
+        } else if (a.y !== b.y){
+            return a.y - b.y;
+        } else{
+            return a.hexPoint - b.hexPoint;
+        }
+    });
     return points;
-};
+}
 
 /**
  * Finds intersections for every tile in tiles
  * @param tiles to find intersections of
  * @returns [] tiles with intersections
  */
-Utility.prototype.locateIntersections = function(tiles) {
+function locateIntersections(tiles) {
     for (var i = 0; i < tiles.length; i++) {
         var tile = tiles[i];
-        tile.intersections = this.getIntersectionsForTile(tile);
+        tile.intersections = getIntersectionsForTile(tile);
     }
     return tiles;
-};
+}
 
-module.exports = Utility;
+module.exports = {
+    locateIntersections : locateIntersections,
+    createBoard : createBoard
+};
