@@ -40,4 +40,24 @@ Tile.prototype.getIndices = function getIndices(){
     return {x: this.x, y: this.y};
 };
 
+/**
+ * Returns a 1-2 letter resource code for the resource on this tile
+ * @returns string the resource code
+ */
+Tile.prototype.getRCode = function(){
+  if (this.resource === 'forest'){
+      return 'w '
+  } else if (this.resource === 'grain'){
+      return 'st';
+  } else if (this.resource === 'sheep'){
+      return 'sh';
+  } else if (this.resource === 'brick'){
+      return 'b ';
+  } else if (this.resource === 'desert'){
+      return 'd ';
+  } else {
+      return 'o ';
+  }
+};
+
 module.exports = Tile;

@@ -3,6 +3,8 @@
  * Class for a catan board
  */
 
+var utility = require('./utility');
+
 /**
  * Creates an empty board class
  * @constructor
@@ -33,7 +35,7 @@ function Board(){
 Board.prototype.addTiles = function addTiles(tiles){
     var _this = this;
     tiles.forEach(function (t){
-        _this.tiles[t.getIndices()] = t;
+        _this.tiles[JSON.stringify(t.getIndices())] = t;
     });
 };
 
@@ -70,7 +72,7 @@ Board.prototype.addStructures = function addStructures(structs){
  * @returns {*} The tile object at x,y undefined if one doesn't exist
  */
 Board.prototype.tileAt = function tileAt(x, y){
-    return this.tiles[{x: x, y: y}];
+    return this.tiles[JSON.stringify({x: x, y: y})];
 };
 
 /**
@@ -108,6 +110,25 @@ Board.prototype.getIntersectionScore = function(intersection) {
         score += getResourceValue(tile.resource);
     }
     return score;
+};
+
+/**
+ * Print the current board to terminal (or somewhere else if we have time)
+ * Currently prints resources on each tile
+ */
+Board.prototype.printBoard = function(){
+    for (var i = 0; i <= utility.xMax; i++){
+        var outString = '';
+        for (var j = 0; j <= utility.yMax; j++){
+           var t = this.tileAt(i, j);
+            if (t){
+                outString += t.getRCode() + '  ';  //TODO better print function
+            } else{
+                outString = '  ' + outString;
+            }
+        }
+        console.log(outString);
+    }
 };
 
 /**

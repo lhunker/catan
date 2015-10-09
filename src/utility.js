@@ -1,4 +1,5 @@
 var Tile = require('./tile.js');
+var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
 
@@ -54,9 +55,9 @@ function createTiles () {
     var tiles = [];
     var row = 0, column = 0;
     for (var i = 0; i < 19; i++) {
-        console.log(column + ', ' + row);
+        //console.log(column + ', ' + row);
         var index = Math.floor(Math.random() * resourceRemaining.length);
-        var resource = resourceRemaining.splice(index, 1);
+        var resource = _.first(resourceRemaining.splice(index, 1));
         var roll = 0;
         // Get roll number for square, unless it is desert, which has no resources
         // and thus no roll number
@@ -207,5 +208,7 @@ function locateIntersections(tiles) {
 
 module.exports = {
     locateIntersections : locateIntersections,
-    createBoard : createBoard
+    createBoard : createBoard,
+    xMax: 4,
+    yMax: 4
 };
