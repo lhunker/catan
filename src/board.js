@@ -11,6 +11,19 @@ function Board(){
     this.tiles = [];
     this.structures = [];
     this.roads = [];
+    this.dieProbabilities = {
+        2: 1/36,
+        3: 1/18,
+        4: 1/12,
+        5: 1/9,
+        6: 5/36,
+        7: 1/6,
+        8: 5/36,
+        9: 1/9,
+        10: 1/12,
+        11: 1/18,
+        12: 1/36
+    };
 }
 
 /**
@@ -21,7 +34,7 @@ Board.prototype.addTiles = function addTiles(tiles){
     var _this = this;
     tiles.forEach(function (t){
         _this.tiles[t.getIndices()] = t;
-    })
+    });
 };
 
 /**
@@ -79,5 +92,35 @@ Board.prototype.roadAt = function roadAt(int1, int2){
 Board.prototype.structureAt = function structureAt(intersection){
     return this.structures[intersection];
 };
+
+/**
+ * Calculates the score of an intersection, AKA value of putting a settlement there
+ * @param intersection to get the value of
+ * @returns number a numeric score, higher is better
+ */
+Board.prototype.getIntersectionScore = function(intersection) {
+    // TODO currently returns sum of probabilities of a neighboring tile being selected
+    //      for resource gathering
+    var score = 0;
+    for (var i = 0; i < intersection.length; i++) {
+        var point = intersection[i];
+        var tile = this.tileAt(point.x, point.y);
+        score += getResourceValue(tile.resource);
+    }
+    return score;
+};
+
+/**
+ * Returns the value of a resource, can reference game state and current
+ * player conditions
+ * @param tile Tile containing resource to get score of
+ * @returns number current value of resource, higher is better
+ */
+function getResourceValue(tile) {
+    // TODO use real values, consider game state and player resources and such
+    if (tile.resource === 'desert') return 0;
+    // TODO currently returns probability tile being rolled
+    return this.dieProbabilities[tile.roll];
+}
 
 module.exports = Board;

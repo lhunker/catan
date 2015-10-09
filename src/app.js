@@ -1,10 +1,12 @@
+var Board = require('./board.js');
 var Utility = require('./utility.js');
 
 /**
  * Main file for the application
  **/
+var board = new Board();
 var utility = new Utility();
-var tiles = utility.createBoard();
-for (var i = 0; i < tiles.length; i++) {
-    console.log(tiles[i].toString());
+board.tiles = utility.createBoard();
+for (var i = 0; i < board.tiles.length; i++) {
+    console.log(board.tiles[i].toString());
 }
