@@ -206,9 +206,56 @@ function locateIntersections(tiles) {
     return tiles;
 }
 
+/**
+ * A simple function to create a structure object
+ * Used to keep keys consistent - possibly change to full class later
+ * @param intersection the intersection the stucture is at
+ * @param player the player who owns the structure
+ * @param type the structure's type, 'city' or 'settlement'
+ * @returns {{int: *, player: *, type: *}}
+ */
+function makeStructure(intersection, player, type){
+    intersection = sortPoints(intersection);
+    return {int: intersection, player: player, type: type};
+}
+
+/**
+ * Sort two intersections based on their first points
+ * @param ints an array of intersections to sort.
+ *      Assumes points within intersections have been sorted
+ * @returns {*} the intersections sorted
+ */
+function sortIntersections(ints){
+    ints.sort(function(a, b){
+        if (a[0].x !== b[0].x){
+            return a[0].x - b[0].x;
+        } else if (a[0].y !== b[0].y){
+            return a[0].y - b[0].y;
+        } else {
+            return a[0].hexPoint - b[0].hexPoint;
+        }
+    });
+    return ints;
+}
+
+/**
+ * Generates a road structure (used to ensure consistent structures)
+ * @param int1 the first intersection (assumes points within intersection already sorted)
+ * @param int2 the second intersection (assumes points within intersection already sorted)
+ * @param player the player building the road
+ * @returns {{type: string, intersections: *, player: *}} A road structure
+ */
+function makeRoad(int1, int2, player){
+    var ints = sortIntersections([int1, int2]);
+    return {type: 'road', intersections: ints, player: player};
+}
+
 module.exports = {
     locateIntersections : locateIntersections,
     createBoard : createBoard,
     xMax: 4,
-    yMax: 4
+    yMax: 4,
+    makeStructure: makeStructure,
+    sortPoints: sortPoints,
+    makeRoad: makeRoad
 };

@@ -13,7 +13,8 @@ function Board(){
     this.tiles = [];
     this.structures = [];
     this.roads = [];
-    this.dieProbabilities = {
+    this.intersections = [];        //TODO fill this in
+    this.dieProbabilities = {   //TODO move this to utility
         2: 1/36,
         3: 1/18,
         4: 1/12,
