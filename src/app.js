@@ -10,3 +10,5 @@ board.addTiles(tiles);
 
 board.printBoard();
 
+console.info(board.getResources([{x:1, y:0}, {x:2, y:0}, {x:2, y:1}]));
+

@@ -1,4 +1,4 @@
-var Tile = require('./tile.js');
+var Tile = require('./tile');
 var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system

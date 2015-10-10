@@ -49,7 +49,7 @@ Board.prototype.addRoads = function addRoads(roads){
     var _this = this;
     roads.forEach(function(r){
         //TODO change if roads become a class or have mre vars
-       _this.roads[{int1: r.int1, int2: r.int2}] = r;
+        _this.roads[{int1: r.int1, int2: r.int2}] = r;
     });
 };
 
@@ -58,7 +58,7 @@ Board.prototype.addRoads = function addRoads(roads){
  * @param structs An array of structures to add //TODO further define structures
  */
 Board.prototype.addStructures = function addStructures(structs){
-  var _this = this;
+    var _this = this;
     structs.forEach(function(s){
         //TODO change once structure class is more defined
         _this.structures[s.intersection] = s;
@@ -79,7 +79,7 @@ Board.prototype.tileAt = function tileAt(x, y){
  * Returns the road between int1 and int2
  * @param int1 the first intersection
  * @param int2 the second intersection
- * @returns {*} The road, or undefined if no raod exists
+ * @returns {*} The road, or undefined if no road exists
  */
 Board.prototype.roadAt = function roadAt(int1, int2){
     //TODO sort intersections
@@ -113,14 +113,46 @@ Board.prototype.getIntersectionScore = function(intersection) {
 };
 
 /**
+ * Gets the resources obtained by putting a structure at the settlement
+ * @param int The intersection to check
+ * @returns {{sheep: number, ore: number, wood: number, brick: number, straw: number}}
+ *      the resources obtained from the intersection
+ */
+Board.prototype.getResources = function (int){
+    var resources =  {sheep:0, ore: 0, wood: 0, brick: 0, straw: 0};
+
+    for(var i = 0; i < int.length; i++){
+        var tile = this.tileAt(int[i].x, int[i].y);
+        var resource = tile.resource;
+        if (resource === 'forest'){
+            resources.wood += 1;
+        } else if (resource === 'grain'){
+            resources.straw += 1;
+        } else if (resource === 'sheep'){
+            resources.sheep += 1;
+        } else if (resource === 'brick'){
+            resources.brick += 1;
+        } else {
+            resources.ore += 1;
+        }
+    }
+
+    return resources;
+};
+
+/**
  * Print the current board to terminal (or somewhere else if we have time)
  * Currently prints resources on each tile
  */
 Board.prototype.printBoard = function(){
+    this.tiles.forEach(function(t){
+        console.info(t);
+    });
+
     for (var i = 0; i <= utility.xMax; i++){
         var outString = '';
         for (var j = 0; j <= utility.yMax; j++){
-           var t = this.tileAt(i, j);
+            var t = this.tileAt(j, i);
             if (t){
                 outString += t.getRCode() + '  ';  //TODO better print function
             } else{
