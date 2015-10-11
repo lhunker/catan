@@ -156,7 +156,7 @@ Board.prototype.getIntersectionDist = function(int){
         if (resource === 'forest'){
             roll.resource = 'wood';
         } else if (resource === 'grain'){
-            roll.resource = straw;
+            roll.resource = 'straw';
         } else if (resource === 'sheep'){
             roll.resource = 'sheep';
         } else if (resource === 'brick'){

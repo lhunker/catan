@@ -9,6 +9,9 @@
  * @param placement a function containing the heuristic for placement
  * TODO figure out what data is needed
  */
+
+var _ = require('underscore');
+
 function Player(placement){
     this.placement = placement;
     var resources = {sheep: 0, wood: 0, ore: 0, brick: 0, straw: 0};
