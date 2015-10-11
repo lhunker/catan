@@ -9,7 +9,12 @@
  * @returns {Number} the number of materials in tiles adjacent to the intersection
  */
 function h1MostResources(intersection, board){
-    return board.getIntersectionDist(intersection).length;
+    var score = 0;
+    for (var i = 0; i < intersection.length; i++) {
+        var point = intersection[i];
+        score += board.dieProbabilities[board.tileAt(point.x, point.y)];
+    }
+    return score;
 }
 
 /**
