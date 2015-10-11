@@ -2,7 +2,7 @@
  * Created by lhunker on 10/10/15.
  * Runs a given game until a player wins based off simple heuristics
  */
-
+var utility = require('./utility');
 
 /**
  * Builds a new GameRunner class

@@ -43,7 +43,7 @@ Board.prototype.addTiles = function addTiles(tiles){
 /**
  *  Add roads to the board
  * @param roads an array of road objects to add to the board
- *  format [intersection, intersection]   //TODO add utility function to make these
+ *  format [intersection, intersection]
  *  Assumes a road is {int1, int2, player}
  */
 Board.prototype.addRoads = function addRoads(roads){
@@ -56,7 +56,7 @@ Board.prototype.addRoads = function addRoads(roads){
 
 /**
  * Adds structures to the board
- * @param structs An array of structures to add //TODO further define structures
+ * @param structs An array of structures to add made from the functions in utility
  */
 Board.prototype.addStructures = function addStructures(structs){
     var _this = this;
@@ -136,6 +136,35 @@ Board.prototype.getResources = function (int){
         } else {
             resources.ore += 1;
         }
+    }
+
+    return resources;
+};
+
+/**
+ * Gets the what is earned at each roll for a given intersection
+ * @param int the intersection to check
+ * @returns {Array} an array or roll resource pairs
+ */
+Board.prototype.getIntersectionDist = function(int){
+    var resources = [];
+
+    for(var i = 0; i < int.length; i++){
+        var tile = this.tileAt(int[i].x, int[i].y);
+        var resource = tile.resource;
+        var roll = {roll: tile.roll};
+        if (resource === 'forest'){
+            roll.resource = 'wood';
+        } else if (resource === 'grain'){
+            roll.resource = straw;
+        } else if (resource === 'sheep'){
+            roll.resource = 'sheep';
+        } else if (resource === 'brick'){
+            roll.resource = 'brick';
+        } else {
+            roll.resource = 'ore';
+        }
+        resources.push(roll);
     }
 
     return resources;

@@ -1,4 +1,5 @@
 var Tile = require('./tile');
+var Board = require('./Board');
 var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
@@ -250,6 +251,19 @@ function makeRoad(int1, int2, player){
     return {type: 'road', intersections: ints, player: player};
 }
 
+/**
+ * Makes a new copy of the board for rollouts
+ * @param board the board to copy
+ */
+function cloneBoard(board){
+    var newBoard = new Board();
+    newBoard.addRoads(board.roads);
+    newBoard.addStructures(board.structures);
+    newBoard.addTiles(board.tiles);
+
+    return newBoard;
+}
+
 module.exports = {
     locateIntersections : locateIntersections,
     createBoard : createBoard,
@@ -257,5 +271,6 @@ module.exports = {
     yMax: 4,
     makeStructure: makeStructure,
     sortPoints: sortPoints,
-    makeRoad: makeRoad
+    makeRoad: makeRoad,
+    cloneBoard: cloneBoard
 };
