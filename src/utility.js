@@ -1,5 +1,5 @@
 var Tile = require('./tile');
-var Board = require('./Board');
+var Board = require('./board');
 var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
