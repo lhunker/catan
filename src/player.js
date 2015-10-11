@@ -45,13 +45,13 @@ Player.prototype.addStructure = function (rMap) {
     rMap.forEach(function(r){
         var current = r.resource;
         var roll = r.roll;
-        if(current = 'wood'){
+        if(current === 'wood'){
             _this.resourceMap[roll].wood++;
-        }else if (current = 'ore'){
+        }else if (current === 'ore'){
             _this.resourceMap[roll].ore++;
-        }else if (current = 'brick'){
+        }else if (current === 'brick'){
             _this.resourceMap[roll].brick++;
-        }else if (current = 'straw'){
+        }else if (current === 'straw'){
             _this.resourceMap[roll].straw++;
         }else {
             _this.resourceMap[roll].sheep++;
