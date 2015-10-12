@@ -20,6 +20,7 @@ function Player(placement){
         this.resourceMap[i] = _.clone(resources);
     }
     this.resources = resources;
+    this.victoryPoints = 0; // TODO: add victory points
 }
 
 /**
