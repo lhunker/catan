@@ -7,6 +7,8 @@ var utility = require('./utility.js');
 var board = new Board();
 var tiles = utility.createBoard();
 board.addTiles(tiles);
-for (var i = 0; i < board.tiles.length; i++) {
-    console.log(board.tiles[i].toString());
-}
+
+board.printBoard();
+
+console.info(board.getResources([{x:1, y:0}, {x:2, y:0}, {x:2, y:1}]));
+

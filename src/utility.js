@@ -1,8 +1,9 @@
-var Tile = require('./tile.js');
+var Tile = require('./tile');
+var Board = require('./board');
+var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
 
-// TODO use environment variable for inclusion of harbors
 var boardWidth = 5;
 
 // Max Y coordinate for a given X value
@@ -54,9 +55,9 @@ function createTiles () {
     var tiles = [];
     var row = 0, column = 0;
     for (var i = 0; i < 19; i++) {
-        console.log(column + ', ' + row);
+        //console.log(column + ', ' + row);
         var index = Math.floor(Math.random() * resourceRemaining.length);
-        var resource = resourceRemaining.splice(index, 1);
+        var resource = _.first(resourceRemaining.splice(index, 1));
         var roll = 0;
         // Get roll number for square, unless it is desert, which has no resources
         // and thus no roll number
@@ -246,9 +247,72 @@ function intersectionsEqual(int1, int2) {
     return true;
 }
 
+/*
+ * A simple function to create a structure object
+ * Used to keep keys consistent - possibly change to full class later
+ * @param intersection the intersection the stucture is at
+ * @param player the player who owns the structure
+ * @param type the structure's type, 'city' or 'settlement'
+ * @returns {{int: *, player: *, type: *}}
+ */
+function makeStructure(intersection, player, type){
+    intersection = sortPoints(intersection);
+    return {int: intersection, player: player, type: type};
+}
+
+/**
+ * Sort two intersections based on their first points
+ * @param ints an array of intersections to sort.
+ *      Assumes points within intersections have been sorted
+ * @returns {*} the intersections sorted
+ */
+function sortIntersections(ints){
+    ints.sort(function(a, b){
+        if (a[0].x !== b[0].x){
+            return a[0].x - b[0].x;
+        } else if (a[0].y !== b[0].y){
+            return a[0].y - b[0].y;
+        } else {
+            return a[0].hexPoint - b[0].hexPoint;
+        }
+    });
+    return ints;
+}
+
+/**
+ * Generates a road structure (used to ensure consistent structures)
+ * @param int1 the first intersection (assumes points within intersection already sorted)
+ * @param int2 the second intersection (assumes points within intersection already sorted)
+ * @param player the player building the road
+ * @returns {{type: string, intersections: *, player: *}} A road structure
+ */
+function makeRoad(int1, int2, player){
+    var ints = sortIntersections([int1, int2]);
+    return {type: 'road', intersections: ints, player: player};
+}
+
+/**
+ * Makes a new copy of the board for rollouts
+ * @param board the board to copy
+ */
+function cloneBoard(board){
+    var newBoard = new Board();
+    newBoard.addRoads(board.roads);
+    newBoard.addStructures(board.structures);
+    newBoard.addTiles(board.tiles);
+
+    return newBoard;
+}
+
 module.exports = {
     locateIntersections : locateIntersections,
     createBoard : createBoard,
-    getUniqueIntersections : getUniqueIntersections
+    getUniqueIntersections : getUniqueIntersections,
+    xMax: 4,
+    yMax: 4,
+    makeStructure: makeStructure,
+    sortPoints: sortPoints,
+    makeRoad: makeRoad,
+    cloneBoard: cloneBoard
 };
 
