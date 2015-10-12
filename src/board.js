@@ -3,6 +3,8 @@
  * Class for a catan board
  */
 
+var utility = require('./utility');
+
 /**
  * Creates an empty board class
  * @constructor
@@ -35,6 +37,7 @@ Board.prototype.addTiles = function addTiles(tiles){
     tiles.forEach(function (t){
         _this.tiles[t.getIndices()] = t;
     });
+    this.intersections = utility.getUniqueIntersections(tiles);
 };
 
 /**

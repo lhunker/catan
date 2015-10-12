@@ -205,7 +205,50 @@ function locateIntersections(tiles) {
     return tiles;
 }
 
+/**
+ * @param tiles List of all tiles
+ * @return [] List of unique intersections
+ */
+function getUniqueIntersections(tiles) {
+    var intersections = [];
+    for (var i = 0; i < tiles.length; i++) {
+        var tile = tiles[i];
+        for (var j = 0; j < tile.intersections.length; j++) {
+            var intersection = tile.intersections[j];
+            var found = 0;
+            for (var k = 0; k < intersections.length; k++) {
+                if (intersectionsEqual(intersections[k], intersection))
+                    found = 1;
+                    break;
+            }
+            if (found === 0)
+                intersections.push(intersection);
+        }
+    }
+
+    return intersections;
+}
+
+/**
+ * Returns if intersections are equal (assumes points sorted deterministically)
+ * @param int1 First intersection
+ * @param int2 Second intersection
+ * @return boolean True if equal
+ */
+function intersectionsEqual(int1, int2) {
+    if (int1.length !== int2.length) return false;
+    for (var i = 0; i < int1.length; i++) {
+        var p1 = int1[i];
+        var p2 = int2[i];
+        if (!(p1.x === p2.x && p1.y === p1.y && p1.hexPoint === p2.hexPoint))
+            return false;
+    }
+    return true;
+}
+
 module.exports = {
     locateIntersections : locateIntersections,
-    createBoard : createBoard
+    createBoard : createBoard,
+    getUniqueIntersections : getUniqueIntersections
 };
+
