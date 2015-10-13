@@ -87,17 +87,17 @@ Player.prototype.getBestIntersection = function(board) {
         }
     }
 
-    return maxIntersect
-}
+    return maxIntersect;
+};
 
 /**
  * Determine which move is best
  * @param resources the player's current resources
  */
 function moveHueristic(resources){
-    if(buildSettlement(resources)){
+    if(this.buildSettlement(resources)){
         //build settlements
-    } else if (buildCity(resources)){
+    } else if (this.buildCity(resources)){
         //build city
     }
 }
@@ -110,7 +110,7 @@ function moveHueristic(resources){
  */
 Player.prototype.buildSettlement = function (resources){
     return resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep >0;
-}
+};
 
 /**
  * Determine if the player can build a city
@@ -119,6 +119,6 @@ Player.prototype.buildSettlement = function (resources){
  */
 Player.prototype.buildCity = function (resources){
     return resources.straw >= 2 && resources.ore >= 3;
-}
+};
 
 module.exports = Player;
