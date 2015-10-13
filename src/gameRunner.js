@@ -24,7 +24,7 @@ function GameRunner(board, players){
  */
 GameRunner.prototype.run = function run(){
     var currentTurn = _.random(0, 3);
-    while(!isWinner()){
+    while(!isWinner(this.players)){
         var die1 = _.random(1, 6);
         var die2 = _.random(1, 6);
         var roll = die1 + die2;
@@ -34,7 +34,7 @@ GameRunner.prototype.run = function run(){
         });
 
         //Find player with current turn, player takes turn
-        player[currentTurn].makeMove();
+        this.players[currentTurn].makeMove();
         currentTurn = currentTurn === 3 ? 0 : currentTurn +1;
     }
     //Figure out which player won, output state
@@ -47,9 +47,9 @@ GameRunner.prototype.run = function run(){
  * Determines if there is currently a winner
  * @returns {boolean} player number if there is a winner, false otherwise
  */
-function isWinner(){
+function isWinner(players){
     for(var i = 0; i < 4; i++){
-        if(this.players[i].victoryPoints >= 10){
+        if(players[i].victoryPoints >= 10){
             return i;
         }
     }
