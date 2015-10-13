@@ -176,9 +176,6 @@ Board.prototype.getIntersectionDist = function(int){
  * Currently prints resources on each tile
  */
 Board.prototype.printBoard = function(){
-    this.tiles.forEach(function(t){
-        console.info(t);
-    });
 
     for (var i = 0; i <= utility.xMax; i++){
         var outString = '';

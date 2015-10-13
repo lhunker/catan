@@ -15,13 +15,13 @@ board.addTiles(tiles);
 board.printBoard();
 
 //Make player 1
-var me = new Player(heuristic.h1MostResources);
+var me = new Player(heuristic.h1MostResources, board);
 var players = [];
 
 //For now assume other players use h1
 players.push(me);
 for (var i = 1; i < 4; i++){
-    var nextPlayer = new Player(heuristic.h1MostResources);
+    var nextPlayer = new Player(heuristic.h1MostResources, board);
     players.push(nextPlayer);
 }
 doInitialPlacements();
@@ -37,11 +37,11 @@ function doInitialPlacements(){
     var placing = _.random(1, 3);
     //TODO maybe so something special for our player
     for(var i = 0; i < 4; i++){
-        players[placing].buildSettlement();   //TODO check params
+        players[placing].buildSettlement(true);   //TODO check params
         placing = placing === 3 ? 0 : placing +1;
     }
     for(i = 0; i < 4; i++){
-        players[placing].buildSettlement();
+        players[placing].buildSettlement(true);
         //TODO add resources from settlement
         placing = placing === 0 ? 3 : placing -1;
     }
@@ -61,7 +61,7 @@ function doRollout(board, players, num){
         var bClone = utility.cloneBoard(board);
         var pClone = [];
         for (var j = 0; i < 4; i++) {
-            pClone.push(utility.clonePlayer(players[j]));
+            pClone.push(utility.clonePlayer(players[j], bClone));
         }
 
         var runner = new GameRunner(bClone, pClone);

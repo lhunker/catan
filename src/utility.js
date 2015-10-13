@@ -1,6 +1,5 @@
 var Tile = require('./tile');
 var Board = require('./board');
-var Player = require('./player');
 var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
@@ -65,7 +64,7 @@ function createTiles () {
         if (resource !== 'desert') {
             roll = dieRemaining.splice(index, 1);
         }
-        tiles.push(new Tile(column, row, resource, roll));
+        tiles.push(new Tile(column, row, resource, _.first(roll)));
         row++;
         if (row >= columnHeights[column]) {
             row = 0;
@@ -215,8 +214,11 @@ function getUniqueIntersections(tiles) {
     var intersections = [];
     for (var i = 0; i < tiles.length; i++) {
         var tile = tiles[i];
-        for (var j = 0; j < tile.intersections.length; j++) {
+        for (var j = 0; j < 5/*tile.intersections.length*/; j++) {
             var intersection = tile.intersections[j];
+            if (intersection === NaN){
+                break;
+            }
             var found = 0;
             for (var k = 0; k < intersections.length; k++) {
                 if (intersectionsEqual(intersections[k], intersection))
@@ -308,10 +310,12 @@ function cloneBoard(board){
 /**
  * Meakes a copy of a player
  * @param player the player to copy
+ * @param board the board to put in the player
  * @returns {Player|exports|module.exports} a copy of the player
  */
-function clonePlayer(player){
-    var newPlayer = new Player(player.placement);
+function clonePlayer(player, board){
+    var Player = require('./player');
+    var newPlayer = new Player(player.placement, board);
     newPlayer.resources = _.clone(player.resources);
     newPlayer.resourceMap = _.clone(player.resourceMap);
     newPlayer.victoryPoints = player.victoryPoints;
@@ -328,6 +332,7 @@ module.exports = {
     sortPoints: sortPoints,
     makeRoad: makeRoad,
     cloneBoard: cloneBoard,
-    clonePlayer: clonePlayer
+    clonePlayer: clonePlayer,
+    intersectionsEqual : intersectionsEqual
 };
 

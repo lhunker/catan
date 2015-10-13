@@ -3,8 +3,6 @@
  * A game player class
  */
 
-var utility = require('./utility');
-
 /**
  * Makes a player
  * @constructor
@@ -13,6 +11,7 @@ var utility = require('./utility');
  * TODO figure out what data is needed
  */
 
+var utility = require('./utility');
 var _ = require('underscore');
 
 function Player(placement, board){
@@ -72,18 +71,17 @@ Player.prototype.addStructure = function (rMap) {
 };
 
 /**
- * @param board to use for determining settlement location
  * @return [] Intersection to build a settlement at
  */
-Player.prototype.getBestIntersection = function(board) {
-    var intersections = board.intersections;
+Player.prototype.getBestIntersection = function() {
+    var intersections = this.board.intersections;
     var maxHeuristicValue = 0;
     var maxIntersect = NaN;
     for (var i = 0; i < intersections.length; i++) {
         var intersect = intersections[i];
         // Check that intersection is buildable and has a better score than the current best
-        if (board.isIntersectionBuildable(intersect)) {
-            var value = this.placement(intersect);
+        if (this.board.isIntersectionBuildable(intersect)) {
+            var value = this.placement(intersect, this.board);
             if (value > maxHeuristicValue) {
                 maxHeuristicValue = value;
                 maxIntersect = intersect;
@@ -126,7 +124,7 @@ function canBuildCity (resources){
     return resources.straw >= 2 && resources.ore >= 3;
 }
 
-Player.prototype.buildSettlement = function(){
+Player.prototype.buildSettlement = function(beginningOfGame){
     if (!beginningOfGame) {
         this.resources.wood -= 1;
         this.resources.brick -= 1;
