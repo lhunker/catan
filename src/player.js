@@ -64,6 +64,29 @@ Player.prototype.addStructure = function (rMap) {
 };
 
 /**
+ * @param board to use for determining settlement location
+ * @return [] Intersection to build a settlement at
+ */
+Player.prototype.getBestIntersection = function(board) {
+    var intersections = board.intersections;
+    var maxHeuristicValue = 0;
+    var maxIntersect = NaN;
+    for (var i = 0; i < intersections.length; i++) {
+        var intersect = intersections[i];
+        // Check that intersection is buildable and has a better score than the current best
+        if (board.isIntersectionBuildable(intersect)) {
+            var value = this.placement(intersect);
+            if (value > maxHeuristicValue) {
+                maxHeuristicValue = value;
+                maxIntersect = intersect;
+            }
+        }
+    }
+
+    return maxIntersect
+}
+
+/**
  * Determine the value to the player of a space
  * @param int the intersection in question
  */
