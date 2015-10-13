@@ -87,34 +87,34 @@ function getIntersectionsForTile(tile) {
 
     // Check for non-intersection edge points
     if (tile.y === 0 && tile.x <= 2) {
-        points[0] = NaN;
+        points[0] = [];
     }
 
     // Since board is curved, this defines the right edge
     if (tile.x >= 2 && tile.x - tile.y === 2) {
-        points[1] = NaN;
+        points[1] = [];
     }
 
     if (tile.x === 4) {
-        points[2] = NaN;
+        points[2] = [];
     }
 
     if (tile.x >= 2 && tile.y === columnHeights[tile.x] - 1) {
-        points[3] = NaN;
+        points[3] = [];
     }
 
     if (tile.x <= 2 && tile.y === columnHeights[tile.x] - 1) {
-        points[4] = NaN;
+        points[4] = [];
     }
 
     if (tile.x === 0) {
-        points[5] = NaN;
+        points[5] = [];
     }
 
     // For each possible point
     for (var i = 0; i < 6; i++) {
         // If already set as non-intersection, skip
-        if (points.hasOwnProperty(i) && isNaN(points[i])) continue;
+        if (points.hasOwnProperty(i) && (points[i].length === 0)) continue;
         points[i] = [];
         /* Coordinate black magic to calculate intersections
          * I drew a pretty picture to figure this out so you don't need to read the code
@@ -128,14 +128,14 @@ function getIntersectionsForTile(tile) {
          * the numbers, again, reference the drawing/a hexagonal board for verification
          */
          // Points 0, 1
-        if (i < 2) {
+        if (i < 2 && (tile.x > 2 && (tile.x - tile.y !== 2))) {
             if (tile.y - 1 >= 0) {
                 points[i].push({x: tile.x, y: tile.y - 1, hexPoint: 4 - i});
             }
         }
 
         // 1, 2
-        if (0 < i && i < 3) {
+        if (0 < i && i < 3 && (tile.x - tile.y !== 2)) {
             if (tile.x + 1 < boardWidth && tile.y < columnHeights[tile.x + 1]) {
                 points[i].push({x: tile.x + 1, y: tile.y, hexPoint: 5 - (i - 1)});
             }
@@ -171,6 +171,7 @@ function getIntersectionsForTile(tile) {
 
         points[i] = sortPoints(points[i]);
     }
+    
     return points;
 }
 
@@ -213,11 +214,10 @@ function getUniqueIntersections(tiles) {
     var intersections = [];
     for (var i = 0; i < tiles.length; i++) {
         var tile = tiles[i];
-        for (var j = 0; j < 5/*tile.intersections.length*/; j++) {
+        for (var j = 0; j < tile.intersections.length; j++) {
             var intersection = tile.intersections[j];
-            if (intersection === NaN){
+            if (intersection.length === 0)
                 break;
-            }
             var found = 0;
             for (var k = 0; k < intersections.length; k++) {
                 if (intersectionsEqual(intersections[k], intersection))
