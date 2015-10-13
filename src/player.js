@@ -95,9 +95,9 @@ Player.prototype.getBestIntersection = function(board) {
  * @param resources the player's current resources
  */
 function moveHueristic(resources){
-    if(this.buildSettlement(resources)){
+    if(canBuildSettlement(resources)){
         //build settlements
-    } else if (this.buildCity(resources)){
+    } else if (canBuildCity(resources)){
         //build city
     }
 }
@@ -106,19 +106,19 @@ function moveHueristic(resources){
 /**
  * Determine if there are enough resources to build a settlement
  * @param resources The player's current resources
- * @return true if a settlement can be built, false anyways
+ * @return {boolean} true if a settlement can be built, false anyways
  */
-Player.prototype.buildSettlement = function (resources){
+function canBuildSettlement (resources){
     return resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep >0;
-};
+}
 
 /**
  * Determine if the player can build a city
  * @param resources the player's current resources
  * @returns {boolean} true if the player can build a city, false otherwise
  */
-Player.prototype.buildCity = function (resources){
+function canBuildCity (resources){
     return resources.straw >= 2 && resources.ore >= 3;
-};
+}
 
 module.exports = Player;
