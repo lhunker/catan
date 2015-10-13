@@ -1,5 +1,4 @@
 var Tile = require('./tile');
-var Board = require('./board');
 var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
@@ -299,6 +298,7 @@ function makeRoad(int1, int2, player){
  * @param board the board to copy
  */
 function cloneBoard(board){
+    var Board = require('./board');
     var newBoard = new Board();
     newBoard.addRoads(board.roads);
     newBoard.addStructures(board.structures);

@@ -25,7 +25,7 @@ function h1MostResources(intersection, board){
  * Counts adjacent resources and subtracts value from duplicate resources
  * @param intersection the intersection in question
  * @param board the board the intersection is on
- * @param resources the resources the player already has
+ * @param resources the resources the player already has TODO probably want to base this on tiles
  * @returns {number} the score as determined by number of adjacent resources
  * minus a multiplier for each duplicate resource
  */
