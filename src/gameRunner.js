@@ -38,7 +38,7 @@ GameRunner.prototype.run = function run(){
         currentTurn = currentTurn === 3 ? 0 : currentTurn +1;
     }
     //Figure out which player won, output state
-    var winner = isWinner();
+    var winner = isWinner(players);
     return winner === 0;
 
 };
