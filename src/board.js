@@ -238,6 +238,7 @@ Board.prototype.getNeighborIntersections = function(intersection) {
  * @returns boolean true if can build here
  */
 Board.prototype.isIntersectionBuildable = function(intersection) {
+    if (this.structureAt(intersection)) return false;
     var neighbors = this.getNeighborIntersections(intersection);
     for (var i = 0; i < neighbors.length; i++)
         if (this.structureAt(neighbors[i])) return false;
