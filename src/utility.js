@@ -172,8 +172,6 @@ function getIntersectionsForTile(tile) {
 
         points[i] = sortPoints(points[i]);
     }
-    console.log(tile.x + ',' + tile.y);
-    console.log(points);
     
     return points;
 }
