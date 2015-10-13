@@ -115,7 +115,7 @@ function getIntersectionsForTile(tile) {
     // For each possible point
     for (var i = 0; i < 6; i++) {
         // If already set as non-intersection, skip
-        if (points.hasOwnProperty(i) && (points[i].length == 0)) continue;
+        if (points.hasOwnProperty(i) && (points[i].length === 0)) continue;
         points[i] = [];
         /* Coordinate black magic to calculate intersections
          * I drew a pretty picture to figure this out so you don't need to read the code
