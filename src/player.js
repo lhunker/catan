@@ -85,7 +85,7 @@ function moveHueristic(resources){
  * @param resources The player's current resources
  * @return true if a settlement can be built, false anyways
  */
-function buildSettlement(resources){
+Player.prototype.buildSettlement = function (resources){
     return resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep >0;
 }
 
@@ -94,7 +94,7 @@ function buildSettlement(resources){
  * @param resources the player's current resources
  * @returns {boolean} true if the player can build a city, false otherwise
  */
-function buildCity(resources){
+Player.prototype.buildCity = function (resources){
     return resources.straw >= 2 && resources.ore >= 3;
 }
 
