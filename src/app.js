@@ -1,5 +1,6 @@
 var Board = require('./board.js');
 var utility = require('./utility.js');
+var _ = require('underscore');
 
 /**
  * Main file for the application

@@ -36,7 +36,11 @@ Player.prototype.makeMove = function(){
  * @param roll the number rolled
  */
 Player.prototype.handleRoll = function (roll){
-    //TODO implement function
+    //TODO test function
+    var _this = this;
+    this.resources = _.mapObject(this.resources, function(val, key){
+        return val + _this.resourceMap[roll][key];
+    });
 };
 
 /**
@@ -87,11 +91,34 @@ Player.prototype.getBestIntersection = function(board) {
 }
 
 /**
- * Determine the value to the player of a space
- * @param int the intersection in question
+ * Determine which move is best
+ * @param resources the player's current resources
  */
-function spaceValue(int){
-    //TODO implement function
+function moveHueristic(resources){
+    if(buildSettlement(resources)){
+        //build settlements
+    } else if (buildCity(resources)){
+        //build city
+    }
+}
+
+//TODO handle 4 to 1 trades
+/**
+ * Determine if there are enough resources to build a settlement
+ * @param resources The player's current resources
+ * @return true if a settlement can be built, false anyways
+ */
+function buildSettlement(resources){
+    return resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep >0;
+}
+
+/**
+ * Determine if the player can build a city
+ * @param resources the player's current resources
+ * @returns {boolean} true if the player can build a city, false otherwise
+ */
+function buildCity(resources){
+    return resources.straw >= 2 && resources.ore >= 3;
 }
 
 module.exports = Player;
