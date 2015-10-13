@@ -1,5 +1,6 @@
 var Tile = require('./tile');
 var Board = require('./board');
+var Player = require('./player');
 var _ = require('underscore');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
@@ -304,6 +305,19 @@ function cloneBoard(board){
     return newBoard;
 }
 
+/**
+ * Meakes a copy of a player
+ * @param player the player to copy
+ * @returns {Player|exports|module.exports} a copy of the player
+ */
+function clonePlayer(player){
+    var newPlayer = new Player(player.placement);
+    newPlayer.resources = _.clone(player.resources);
+    newPlayer.resourceMap = _.clone(player.resourceMap);
+    newPlayer.victoryPoints = player.victoryPoints;
+    return newPlayer;
+}
+
 module.exports = {
     locateIntersections : locateIntersections,
     createBoard : createBoard,
@@ -313,6 +327,7 @@ module.exports = {
     makeStructure: makeStructure,
     sortPoints: sortPoints,
     makeRoad: makeRoad,
-    cloneBoard: cloneBoard
+    cloneBoard: cloneBoard,
+    clonePlayer: clonePlayer
 };
 
