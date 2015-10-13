@@ -45,7 +45,7 @@ Player.prototype.handleRoll = function (roll){
 
 /**
  * Adds a structure to the resource
- * @param rMap the map of resource pairs {roll, resource}
+ * @param rMap the array of maps of resource pairs [{roll, resource}]
  * TODO handle cities too
  */
 Player.prototype.addStructure = function (rMap) {

@@ -3,6 +3,7 @@
  */
 
 // TODO: pick real numbers for score (0.25 and 0.5 could not be more arbitrary)
+//TODO change function signatures
 
 /**
  * Counts adjacent resources to maximize number of resources acquired

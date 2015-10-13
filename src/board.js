@@ -51,7 +51,7 @@ Board.prototype.addRoads = function addRoads(roads){
     var _this = this;
     roads.forEach(function(r){
         //TODO change if roads become a class or have mre vars
-        _this.roads[{int1: r.int1, int2: r.int2}] = r;
+        _this.roads[JSON.stringify({int1: r.int1, int2: r.int2})] = r;
     });
 };
 
@@ -63,7 +63,7 @@ Board.prototype.addStructures = function addStructures(structs){
     var _this = this;
     structs.forEach(function(s){
         //TODO change once structure class is more defined
-        _this.structures[s.intersection] = s;
+        _this.structures[JSON.stringify(s.intersection)] = s;
     });
 };
 
@@ -85,7 +85,7 @@ Board.prototype.tileAt = function tileAt(x, y){
  */
 Board.prototype.roadAt = function roadAt(int1, int2){
     //TODO sort intersections
-    return this.roads[{int1: int1, int2: int2}];
+    return this.roads[JSON.stringify({int1: int1, int2: int2})];
 };
 
 /**
@@ -94,7 +94,7 @@ Board.prototype.roadAt = function roadAt(int1, int2){
  * @returns {*} The structure, or undefined if there is no structure at this location
  */
 Board.prototype.structureAt = function structureAt(intersection){
-    return this.structures[intersection];
+    return this.structures[JSON.stringify(intersection)];
 };
 
 /**
