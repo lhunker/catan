@@ -3,16 +3,19 @@
  * A game player class
  */
 
+var utility = require('./utility');
+
 /**
  * Makes a player
  * @constructor
  * @param placement a function containing the heuristic for placement
+ * @param board the game board
  * TODO figure out what data is needed
  */
 
 var _ = require('underscore');
 
-function Player(placement){
+function Player(placement, board){
     this.placement = placement;
     var resources = {sheep: 0, wood: 0, ore: 0, brick: 0, straw: 0};
     this.resourceMap = [];
@@ -20,7 +23,8 @@ function Player(placement){
         this.resourceMap[i] = _.clone(resources);
     }
     this.resources = resources;
-    this.victoryPoints = 0; // TODO: add victory points
+    this.victoryPoints = 0;
+    this.board = board;
 }
 
 /**
@@ -96,9 +100,10 @@ Player.prototype.getBestIntersection = function(board) {
  */
 function moveHueristic(resources){
     if(canBuildSettlement(resources)){
-        //build settlements
+        this.buildSettlement();
     } else if (canBuildCity(resources)){
-        //build city
+        // TODO: make it that cities can only replace settlements
+        //this.buildCity();
     }
 }
 
@@ -120,5 +125,31 @@ function canBuildSettlement (resources){
 function canBuildCity (resources){
     return resources.straw >= 2 && resources.ore >= 3;
 }
+
+Player.prototype.buildSettlement = function(){
+    if (!beginningOfGame) {
+        this.resources.wood -= 1;
+        this.resources.brick -= 1;
+        this.resources.straw -= 1;
+        this.resources.sheep -= 1;
+    }
+    var intersection = this.getBestIntersection(this.board);
+    var structs = utility.makeStructure(intersection, this, 'settlement');
+    this.board.addStructures([structs]);
+    var rMap = this.board.getIntersectionDist(intersection);
+    this.addStructure(rMap);
+    this.victoryPoints++;
+};
+
+Player.prototype.buildCity = function(){
+    this.resources.straw -= 2;
+    this.resources.ore -= 3;
+    var intersection = this.getBestIntersection(this.board); // TODO: make it so that cities can only replace settlements
+    var structs = utility.makeStructure(intersection, this, 'city');
+    this.board.addStructures([structs]);
+    var rMap = this.board.getIntersectionDist(intersection);
+    this.addStructure(rMap);
+    this.victoryPoints += 2;
+};
 
 module.exports = Player;

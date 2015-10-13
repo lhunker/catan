@@ -247,10 +247,10 @@ function intersectionsEqual(int1, int2) {
     return true;
 }
 
-/*
+/**
  * A simple function to create a structure object
  * Used to keep keys consistent - possibly change to full class later
- * @param intersection the intersection the stucture is at
+ * @param intersection the intersection the structure is at
  * @param player the player who owns the structure
  * @param type the structure's type, 'city' or 'settlement'
  * @returns {{int: *, player: *, type: *}}
