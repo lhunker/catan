@@ -207,4 +207,41 @@ function getResourceValue(tile) {
     return this.dieProbabilities[tile.roll];
 }
 
+/**
+ * Returns neighboring intersections for the given one
+ * @param intersection to get neighbors of
+ * @returns [] Array of neighboring intersections
+ */
+Board.prototype.getNeighborIntersections = function(intersection) {
+    var neighbors = [];
+    // For each intersection on the board
+    for (var i = 0; i < this.intersections.length; i++) {
+        // Don't want to match this intersection
+        if (utility.intersectionsEqual(intersection, this.intersections[i])) continue;
+        var matchCount = 0;
+        // Consider each X/Y coordinate pairing in specified intersection and board intersection
+        for (var j = 0; j < intersection.length; j++) {
+            for (var k = 0; k < this.intersections[i].length; k++) {
+                if (intersection[j].x === this.intersections[k].x && intersection[j].y === this.intersections[k].y)
+                    matchCount++;
+            }
+        }
+        // Should share all neighbors except one to be a neighbor
+        if (matchCount === (intersection.length - 1))
+            neighbors.push(this.intersections[i]);
+    }
+    return neighbors;
+};
+
+/**
+ * @param intersection
+ * @returns boolean true if can build here
+ */
+Board.prototype.isIntersectionBuildable = function(intersection) {
+    var neighbors = this.getNeighborIntersections(intersection);
+    for (var i = 0; i < neighbors.length; i++)
+        if (this.structureAt(neighbors[i])) return false;
+    return true;
+};
+
 module.exports = Board;
