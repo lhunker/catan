@@ -75,8 +75,8 @@ Player.prototype.addStructure = function (rMap) {
  */
 Player.prototype.getBestIntersection = function() {
     var intersections = this.board.intersections;
-    var maxHeuristicValue = 0;
-    var maxIntersect = NaN;
+    var maxHeuristicValue = -999999;
+    var maxIntersect = [];
     for (var i = 0; i < intersections.length; i++) {
         var intersect = intersections[i];
         // Check that intersection is buildable and has a better score than the current best
