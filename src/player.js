@@ -132,7 +132,35 @@ function moveHeuristic(resources){
  * @return {boolean} true if a settlement can be built, false anyways
  */
 function canBuildSettlement (resources){
-    return resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep >0;
+    // If have enough already, just build it
+    console.log(resources);
+    if (resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep > 0) return true;
+    var res = ['wood', 'brick', 'straw', 'sheep'];
+    // Otherwise check deficiencies
+    for (var i = 0; i < 4; i++) {
+        if (resources[res[i]] !== 0) continue;
+        // Try getting rid of ore first because that doesn't affect the rest of the settlement reqs
+        if (resources.ore >= 4) {
+            console.log("Traded 4 ore for 1 " + res[i]);
+            resources.ore -= 4;
+            resources[res[i]]++;
+        } else {
+            // Otherwise check if over 5 of any given resource
+            for (var j = 0; j < 4; j++) {
+                if (resources[res[j]] >= 5) {
+                    console.log("Traded 4 " + res[j] + " for 1 " + res[i]);
+                    resources[res[j]] -= 4;
+                    resources[res[i]]++;
+                    break;
+                }
+            }
+        }
+
+        // If still don't have resource, then can't get it
+        if (resources[res[i]] === 0) return false;
+    }
+
+    return true;
 }
 
 /**
