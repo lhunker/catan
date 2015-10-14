@@ -45,9 +45,9 @@ Tile.prototype.getIndices = function getIndices(){
  * @returns string the resource code
  */
 Tile.prototype.getRCode = function(){
-  if (this.resource === 'forest'){
+  if (this.resource === 'wood'){
       return 'w ';
-  } else if (this.resource === 'grain'){
+  } else if (this.resource === 'straw'){
       return 'st';
   } else if (this.resource === 'sheep'){
       return 'sh';

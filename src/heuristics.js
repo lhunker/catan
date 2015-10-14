@@ -48,7 +48,6 @@ function h2DiversifyResources(intersection, board, resources, player){
         score += prob * (1-existingProb);
     }
 
-    //console.log(score);
     return score;
 }
 

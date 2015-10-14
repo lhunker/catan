@@ -128,9 +128,9 @@ Board.prototype.getResources = function (int){
     for(var i = 0; i < int.length; i++){
         var tile = this.tileAt(int[i].x, int[i].y);
         var resource = tile.resource;
-        if (resource === 'forest'){
+        if (resource === 'wood'){
             resources.wood += 1;
-        } else if (resource === 'grain'){
+        } else if (resource === 'straw'){
             resources.straw += 1;
         } else if (resource === 'sheep'){
             resources.sheep += 1;
