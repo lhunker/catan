@@ -245,7 +245,7 @@ function locateIntersections(tiles) {
  */
 function getUniqueIntersections(tiles) {
     var intersections = [];
-    // FOr each tile
+    // For each tile
     for (var i = 0; i < tiles.length; i++) {
         var tile = tiles[i];
         // For each tile intersection
@@ -256,12 +256,14 @@ function getUniqueIntersections(tiles) {
             var found = 0;
             // Check if in intersections already
             for (var k = 0; k < intersections.length; k++) {
-                if (intersectionsEqual(intersections[k], intersection))
+                if (intersectionsEqual(intersections[k], intersection)) {
                     found = 1;
                     break;
+                }
             }
             if (found === 0) {
-                intersections.push(intersection);}
+                intersections.push(intersection);
+            }
         }
     }
 
