@@ -99,11 +99,11 @@ Player.prototype.getBestSettlement = function(){
     var _this = this;
 
     _.each(structures, function (s){
-        if(s.player === _this && s.type === 'settlement'){  //TODO this might not work
+        if(s.player.number === _this.number && s.type === 'settlement'){  //TODO this might not work
             var value = _this.placement(s.int, _this.board, _this.resources, _this);
             if (value > maxHeuristicValue) {
                 maxHeuristicValue = value;
-                maxIntersect = intersect;
+                maxIntersect = s.int;
             }
         }
     });
@@ -119,9 +119,7 @@ function moveHeuristic(resources){
     if(canBuildSettlement(resources)){
         this.buildSettlement();
     } else if (canBuildCity(resources)){
-        // TODO: make it that cities can only replace settlements
-        //this.buildCity();
-        this.canBuildCity(resources);
+        this.buildCity();
     }
 }
 
@@ -133,7 +131,7 @@ function moveHeuristic(resources){
  */
 function canBuildSettlement (resources){
     // If have enough already, just build it
-    console.log(resources);
+    //console.log(resources);
     if (resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep > 0) return true;
     var res = ['wood', 'brick', 'straw', 'sheep'];
     // Otherwise check deficiencies
@@ -141,14 +139,14 @@ function canBuildSettlement (resources){
         if (resources[res[i]] !== 0) continue;
         // Try getting rid of ore first because that doesn't affect the rest of the settlement reqs
         if (resources.ore >= 4) {
-            console.log("Traded 4 ore for 1 " + res[i]);
+            //console.log("Traded 4 ore for 1 " + res[i]);
             resources.ore -= 4;
             resources[res[i]]++;
         } else {
             // Otherwise check if over 5 of any given resource
             for (var j = 0; j < 4; j++) {
                 if (resources[res[j]] >= 5) {
-                    console.log("Traded 4 " + res[j] + " for 1 " + res[i]);
+                    //console.log("Traded 4 " + res[j] + " for 1 " + res[i]);
                     resources[res[j]] -= 4;
                     resources[res[i]]++;
                     break;
@@ -173,6 +171,7 @@ function canBuildCity (resources){
 }
 
 Player.prototype.buildSettlement = function(beginningOfGame){
+    //console.info('settlement ' + this.number);
     if (!beginningOfGame) {
         this.resources.wood -= 1;
         this.resources.brick -= 1;
@@ -190,12 +189,16 @@ Player.prototype.buildSettlement = function(beginningOfGame){
 Player.prototype.buildCity = function(){
     this.resources.straw -= 2;
     this.resources.ore -= 3;
-    var intersection = this.getBestIntersection(this.board); // TODO: make it so that cities can only replace settlements
-    var structs = utility.makeStructure(intersection, this, 'city');
-    this.board.addStructures([structs]);
-    var rMap = this.board.getIntersectionDist(intersection);
-    this.addStructure(rMap);
-    this.victoryPoints += 2;
+    var intersection = this.getBestSettlement(this.board); // TODO: make it so that cities can only replace settlements
+    if(intersection.length !== 0 && intersection !== []){
+        //console.info('Building city ' + this.number);
+        var structs = utility.makeStructure(intersection, this, 'city');
+        this.board.addStructures([structs]);
+        var rMap = this.board.getIntersectionDist(intersection);
+        this.addStructure(rMap);
+        this.victoryPoints += 1;
+    }
+
 };
 
 module.exports = Player;
