@@ -120,7 +120,7 @@ function selectionRollout(loopNum, i, intersections) {
         var bClone = utility.cloneBoard(board);
         var pClone = [];
         for (var k = 0; k < 4; k++) {
-            pClone.push(utility.clonePlayer(players[k], bClone, players[j].number));
+            pClone.push(utility.clonePlayer(players[k], bClone, players[k].number));
         }
 
         pClone[0].buildSettlement(true, intersections[j]);
@@ -136,7 +136,7 @@ function selectionRollout(loopNum, i, intersections) {
         }
         for(; i < 4; i++){
             players[placing].buildSettlement(true);
-            placing = placing === 3 ? 0 : placing -1;
+            placing = placing === 0 ? 3 : placing -1;
         }
 
         //Do Rollouts
