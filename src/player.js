@@ -177,7 +177,7 @@ Player.prototype.buildSettlement = function(beginningOfGame){
         this.resources.straw -= 1;
         this.resources.sheep -= 1;
     }
-    var intersection = this.getBestIntersection(this.board);
+    var intersection = this.getBestIntersection();
     var structs = utility.makeStructure(intersection, this, 'settlement');
     this.board.addStructures([structs]);
     var rMap = this.board.getIntersectionDist(intersection);

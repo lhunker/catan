@@ -34,7 +34,7 @@ console.info('Player won ' + wins + ' times');
  * Performs the initial settlement placement
  */
 function doInitialPlacements(){
-    var placing = _.random(1, 3);
+    var placing = _.random(0, 3);
     //TODO maybe do something special for our player
     for(var i = 0; i < 4; i++){
         players[placing].buildSettlement(true);   //TODO check params

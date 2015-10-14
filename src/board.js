@@ -246,4 +246,5 @@ Board.prototype.isIntersectionBuildable = function(intersection) {
     return true;
 };
 
+utility.saveBoard(utility.createBoard(), "file");
 module.exports = Board;

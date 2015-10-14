@@ -26,6 +26,25 @@ function createBoard() {
 }
 
 /**
+ * Saves a board to a file
+ * @param tiles representing the board
+ * @file name to save to
+ */
+function saveBoard(tiles, file) {
+    var data = '';
+    for (var i = 0; i < tiles.length; i++) {
+        var t = tiles[i];
+        data += t.resource + ',' + t.roll + '\n';
+    }
+
+    fs.writeFile(file, data, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+    });
+}
+
+/**
  * Loads a board from a file
  * @param file to load data from
  * @param callback to send generated tiles
@@ -376,6 +395,7 @@ module.exports = {
     makeRoad: makeRoad,
     cloneBoard: cloneBoard,
     loadBoard: loadBoard,
+    saveBoard: saveBoard,
     clonePlayer: clonePlayer,
     intersectionsEqual : intersectionsEqual
 };
