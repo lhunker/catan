@@ -196,6 +196,9 @@ Player.prototype.buildSettlement = function(beginningOfGame, intersection){
     this.victoryPoints++;
 };
 
+/**
+ * Handles the creation of a city
+ */
 Player.prototype.buildCity = function(){
     this.resources.straw -= 2;
     this.resources.ore -= 3;
