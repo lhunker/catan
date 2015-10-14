@@ -164,8 +164,10 @@ Board.prototype.getIntersectionDist = function(int){
             roll.resource = 'sheep';
         } else if (resource === 'brick'){
             roll.resource = 'brick';
-        } else {
+        } else if (resource === 'ore') {
             roll.resource = 'ore';
+        } else {
+            continue;
         }
         resources.push(roll);
     }
