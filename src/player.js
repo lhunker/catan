@@ -103,6 +103,7 @@ function moveHeuristic(resources){
     } else if (canBuildCity(resources)){
         // TODO: make it that cities can only replace settlements
         //this.buildCity();
+        this.canBuildCity(resources);
     }
 }
 
