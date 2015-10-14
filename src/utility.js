@@ -348,11 +348,12 @@ function cloneBoard(board){
  * Meakes a copy of a player
  * @param player the player to copy
  * @param board the board to put in the player
+ * @param number the player number
  * @returns {Player|exports|module.exports} a copy of the player
  */
-function clonePlayer(player, board){
+function clonePlayer(player, board, number){
     var Player = require('./player');
-    var newPlayer = new Player(player.placement, board);
+    var newPlayer = new Player(player.placement, board, number);
     newPlayer.resources = _.clone(player.resources);
     newPlayer.resourceMap = _.clone(player.resourceMap);
     newPlayer.victoryPoints = player.victoryPoints;
