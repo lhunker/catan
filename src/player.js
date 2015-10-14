@@ -97,8 +97,13 @@ Player.prototype.getBestIntersection = function(number) {
             keys.push(parseFloat(key).toFixed(5));
         }
     });
+
     keys.sort();
     keys.reverse();
+
+    if (!intersectionHeuristics.hasOwnProperty(keys[0])) {
+        return [];
+    }
 
     if (number) {
         var values = [];
@@ -111,12 +116,6 @@ Player.prototype.getBestIntersection = function(number) {
         return values;
     }
 
-    /*if (!intersectionHeuristics.hasOwnProperty(keys[0])) {
-        console.log(this.board.structures);
-        console.log(this.victoryPoints);
-        console.log(keys);
-        console.log(intersectionHeuristics);
-    }*/
     return intersectionHeuristics[keys[0]][0];
 };
 
