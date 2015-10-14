@@ -212,20 +212,23 @@ function locateIntersections(tiles) {
  */
 function getUniqueIntersections(tiles) {
     var intersections = [];
+    // FOr each tile
     for (var i = 0; i < tiles.length; i++) {
         var tile = tiles[i];
-        for (var j = 0; j < tile.intersections.length; j++) {
+        // For each tile intersection
+        for (var j = 0; j < 6; j++) {
             var intersection = tile.intersections[j];
             if (intersection.length === 0)
                 break;
             var found = 0;
+            // Check if in intersections already
             for (var k = 0; k < intersections.length; k++) {
                 if (intersectionsEqual(intersections[k], intersection))
                     found = 1;
                     break;
             }
-            if (found === 0)
-                intersections.push(intersection);
+            if (found === 0) {
+                intersections.push(intersection);}
         }
     }
 
@@ -303,6 +306,7 @@ function cloneBoard(board){
     newBoard.addRoads(board.roads);
     newBoard.addStructures(board.structures);
     newBoard.addTiles(board.tiles);
+    newBoard.intersections = board.intersections;
 
     return newBoard;
 }
