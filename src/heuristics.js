@@ -130,10 +130,19 @@ function h5BrickAndOreForDays(intersection, board, resources, player){
     return score;
 }
 
+/**
+ * Simply returns a random value for each intersection to be used as a baseline
+ * @returns {number} A random heuristic value
+ */
+function random(){
+    return Math.random();
+}
+
 module.exports = {
     h1MostResources : h1MostResources,
     h2DiversifyResources : h2DiversifyResources,
     h3RoadsEarlyCitiesLate :  h3RoadsEarlyCitiesLate,
     h4OppositeOfH3 : h4OppositeOfH3,
-    h5BrickAndOreForDays : h5BrickAndOreForDays
+    h5BrickAndOreForDays : h5BrickAndOreForDays,
+    random : random
 };
