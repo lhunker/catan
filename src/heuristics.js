@@ -45,10 +45,10 @@ function h2DiversifyResources(intersection, board, resources, player){
                 existingProb += board.dieProbabilities[j];
         }
 
-        score += prob * existingProb;
+        score += prob * (1-existingProb);
     }
 
-    console.log(score);
+    //console.log(score);
     return score;
 }
 

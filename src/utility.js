@@ -355,7 +355,10 @@ function clonePlayer(player, board, number){
     var Player = require('./player');
     var newPlayer = new Player(player.placement, board, number);
     newPlayer.resources = _.clone(player.resources);
-    newPlayer.resourceMap = _.clone(player.resourceMap);
+    newPlayer.resourceMap = [];
+    for(var i = 2; i < 13; i++){
+        newPlayer.resourceMap[i] = _.clone(player.resourceMap[i]);
+    }
     newPlayer.victoryPoints = player.victoryPoints;
     return newPlayer;
 }

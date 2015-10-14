@@ -15,7 +15,7 @@ board.addTiles(tiles);
 board.printBoard();
 
 //Make player 1
-var me = new Player(heuristic.h3RoadsEarlyCitiesLate, board, 0);
+var me = new Player(heuristic.h2DiversifyResources, board, 0);
 var players = [];
 
 //For now assume other players use h1
@@ -68,10 +68,10 @@ function doRollout(board, players, num){
         var res = runner.run();
 
         if (res) {
-            console.info('won');
+            //console.info('won');
             won++;
         }else{
-            console.info('loss');
+            //console.info('loss');
         }
     }
     return won;

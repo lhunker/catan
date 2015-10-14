@@ -171,7 +171,6 @@ function canBuildCity (resources){
 }
 
 Player.prototype.buildSettlement = function(beginningOfGame){
-    //console.info('settlement ' + this.number);
     if (!beginningOfGame) {
         this.resources.wood -= 1;
         this.resources.brick -= 1;
