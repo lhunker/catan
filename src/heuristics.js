@@ -9,9 +9,11 @@
  * Counts adjacent resources to maximize number of resources acquired
  * @param intersection the intersection in question
  * @param board the board the intersection is on
+ * @param resources the resources we're ignoring
+ * @param player the player we're ignoring
  * @returns {Number} the number of materials in tiles adjacent to the intersection
  */
-function h1MostResources(intersection, board){
+function h1MostResources(intersection, board, resources, player){
     var score = 0;
     for (var i = 0; i < intersection.length; i++) {
         var point = intersection[i];
@@ -26,10 +28,11 @@ function h1MostResources(intersection, board){
  * @param intersection the intersection in question
  * @param board the board the intersection is on
  * @param resources the resources the player already has TODO probably want to base this on tiles
+ * @param player the player we're ignoring
  * @returns {number} the score as determined by number of adjacent resources
  * minus a multiplier for each duplicate resource
  */
-function h2DiversifyResources(intersection, board, resources){
+function h2DiversifyResources(intersection, board, resources, player){
     var score = h1MostResources(intersection, board);
     var intDist= board.getIntersectionDist(intersection);
 
@@ -53,10 +56,11 @@ function h2DiversifyResources(intersection, board, resources){
  *   and ore and straw in the late game for cities
  * @param intersection the intersection in question
  * @param board the board the intersection is on
+ * @param resources the resources we're ignoring
  * @param player the player whose victory points we care about
  * @returns {number} the calculated score of the heuristic
  */
-function h3RoadsEarlyCitiesLate(intersection, board, player){
+function h3RoadsEarlyCitiesLate(intersection, board, resources, player){
     var score = h1MostResources(intersection, board);
     var intDist= board.getIntersectionDist(intersection);
     var i;
@@ -82,10 +86,11 @@ function h3RoadsEarlyCitiesLate(intersection, board, player){
  *   and ore and straw in the late game for cities
  * @param intersection intersection the intersection in question
  * @param board the board the intersection is on
+ * @param resources the resources we're ignoring
  * @param player the player whose victory points we care about
  * @returns {Number} the calculated score of the heuristic
  */
-function h4OppositeOfH3(intersection, board, player){
+function h4OppositeOfH3(intersection, board, resources, player){
     var score = h1MostResources(intersection, board);
     var intDist= board.getIntersectionDist(intersection);
     var i;
@@ -110,9 +115,11 @@ function h4OppositeOfH3(intersection, board, player){
  * Encourages the player to go for ore and brick
  * @param intersection intersection the intersection in question
  * @param board the board the intersection is on
+ * @param resources the resources we're ignoring
+ * @param player the player we're ignoring
  * @returns {Number} the calculated score of the heuristic
  */
-function h5BrickAndOreForDays(intersection, board){
+function h5BrickAndOreForDays(intersection, board, resources, player){
     var score = h1MostResources(intersection, board);
     var intDist= board.getIntersectionDist(intersection);
     for (var i = 0; i > intDist.length; i++){

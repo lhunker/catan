@@ -82,7 +82,7 @@ Player.prototype.getBestIntersection = function() {
         var intersect = intersections[i];
         // Check that intersection is buildable and has a better score than the current best
         if (this.board.isIntersectionBuildable(intersect)) {
-            var value = this.placement(intersect, this.board);
+            var value = this.placement(intersect, this.board, this.resources, this);
             if (value > maxHeuristicValue) {
                 maxHeuristicValue = value;
                 maxIntersect = intersect;
