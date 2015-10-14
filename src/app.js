@@ -16,7 +16,7 @@ board.addTiles(tiles);
 board.printBoard();
 
 //Make player 1
-var me = new Player(heuristic.random, board, 0);
+var me = new Player(heuristic.h2DiversifyResources, board, 0);
 var players = [];
 
 //For now assume other players use h1
