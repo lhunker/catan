@@ -63,8 +63,8 @@ function loadBoard(file, callback) {
  */
 function createTiles () {
     var resourceRemaining = [
-        'forest', 'forest', 'forest', 'forest',
-        'grain', 'grain', 'grain', 'grain',
+        'wood', 'wood', 'wood', 'wood',
+        'straw', 'straw', 'straw', 'straw',
         'sheep', 'sheep', 'sheep', 'sheep',
         'ore', 'ore', 'ore',
         'brick', 'brick', 'brick',
