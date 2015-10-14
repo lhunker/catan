@@ -112,7 +112,7 @@ function doInitialPlacementsRollout(){
  * @param intersections the intersections to test
  * @returns {*} the best intersection
  */
-function selectionRollout(loopNum, i, intersections) {
+function selectionRollout(loopNum, iIn, intersections) {
     var maxWon = 0;
     var maxInt = intersections[0];
     for (var j = 0; j < intersections.length; j++){
@@ -124,18 +124,20 @@ function selectionRollout(loopNum, i, intersections) {
         }
 
         pClone[0].buildSettlement(true, intersections[j]);
+        var i = iIn;
 
         //Do remaining placements
-        var placing = 0;
+        var placing = 1;
+        i++;
         if (loopNum === 1){
             for(; i < 4; i++){
-                players[placing].buildSettlement(true);
+                pClone[placing].buildSettlement(true);
                 placing = placing === 3 ? 0 : placing +1;
             }
             i = 0;
         }
         for(; i < 4; i++){
-            players[placing].buildSettlement(true);
+            pClone[placing].buildSettlement(true);
             placing = placing === 0 ? 3 : placing -1;
         }
 
