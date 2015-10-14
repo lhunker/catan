@@ -16,6 +16,7 @@ function Board(){
     this.roads = [];
     this.intersections = [];        //TODO fill this in
     this.dieProbabilities = {   //TODO move this to utility
+        0: 0,
         2: 1/36,
         3: 1/18,
         4: 1/12,
@@ -243,6 +244,7 @@ Board.prototype.isIntersectionBuildable = function(intersection) {
     var neighbors = this.getNeighborIntersections(intersection);
     for (var i = 0; i < neighbors.length; i++)
         if (this.structureAt(neighbors[i])) return false;
+
     return true;
 };
 

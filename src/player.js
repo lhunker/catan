@@ -25,6 +25,8 @@ function Player(placement, board, number){
     this.victoryPoints = 0;
     this.board = board;
     this.number = number;
+    this.availSettle = 5;
+    this.availCities = 4;
 }
 
 /**
@@ -81,7 +83,7 @@ Player.prototype.getBestIntersection = function(number) {
         var intersect = intersections[i];
         // Check that intersection is buildable and has a better score than the current best
         if (this.board.isIntersectionBuildable(intersect)) {
-            var value = this.placement(intersect, this.board, this.resources, this);
+            var value = parseFloat(this.placement(intersect, this.board, this.resources, this)).toFixed(5);
             if (intersectionHeuristics.hasOwnProperty(value))
                 intersectionHeuristics[value].push(intersect);
             else
@@ -92,7 +94,7 @@ Player.prototype.getBestIntersection = function(number) {
     var keys = [];
     _.each(intersectionHeuristics, function(val, key) {
         if (val) {
-            keys.push(key);
+            keys.push(parseFloat(key).toFixed(5));
         }
     });
     keys.sort();
@@ -100,13 +102,21 @@ Player.prototype.getBestIntersection = function(number) {
 
     if (number) {
         var values = [];
+        var keyIndex = 0;
         for (var i = 0; i < number; i += intersectionHeuristics[keys[i]].length) {
-            for (var j = 0; j < intersectionHeuristics[keys[i]].length; j++)
-                values.push(intersectionHeuristics[keys[i]][j]);
+            for (var j = 0; j < intersectionHeuristics[keys[keyIndex]].length; j++)
+                values.push(intersectionHeuristics[keys[keyIndex]][j]);
+            keyIndex++;
         }
         return values;
     }
 
+    /*if (!intersectionHeuristics.hasOwnProperty(keys[0])) {
+        console.log(this.board.structures);
+        console.log(this.victoryPoints);
+        console.log(keys);
+        console.log(intersectionHeuristics);
+    }*/
     return intersectionHeuristics[keys[0]][0];
 };
 
@@ -134,10 +144,10 @@ Player.prototype.getBestSettlement = function(){
  * @param resources the player's current resources
  */
 function moveHeuristic(resources){
-    if(canBuildSettlement(resources)){
-        this.buildSettlement();
-    } else if (canBuildCity(resources)){
+    if (canBuildCity(resources)) {
         this.buildCity();
+    } else if (canBuildSettlement(resources)) {
+        this.buildSettlement();
     }
 }
 
@@ -150,6 +160,7 @@ function moveHeuristic(resources){
 function canBuildSettlement (resources){
     // If have enough already, just build it
     //console.log(resources);
+    if (this.availSettle === 0) return false;
     if (resources.wood > 0 && resources.brick > 0 && resources.straw > 0 && resources.sheep > 0) return true;
     var res = ['wood', 'brick', 'straw', 'sheep'];
     // Otherwise check deficiencies
@@ -185,6 +196,7 @@ function canBuildSettlement (resources){
  * @returns {boolean} true if the player can build a city, false otherwise
  */
 function canBuildCity (resources){
+    if (this.availCities === 0) return false;
     return resources.straw >= 2 && resources.ore >= 3;
 }
 
@@ -194,6 +206,7 @@ function canBuildCity (resources){
  * @param intersection optional, the intersection to place the settlement at
  */
 Player.prototype.buildSettlement = function(beginningOfGame, intersection){
+    this.availSettle--;
     if (!beginningOfGame) {
         this.resources.wood -= 1;
         this.resources.brick -= 1;
@@ -218,6 +231,8 @@ Player.prototype.buildSettlement = function(beginningOfGame, intersection){
  * Handles the creation of a city
  */
 Player.prototype.buildCity = function(){
+    this.availSettle++;
+    this.availCities--;
     this.resources.straw -= 2;
     this.resources.ore -= 3;
     var intersection = this.getBestSettlement(this.board); // TODO: make it so that cities can only replace settlements

@@ -20,6 +20,8 @@ function h1MostResources(intersection, board, resources, player){
         //console.info(point.x + ' ' + point.y);
         score += board.dieProbabilities[board.tileAt(point.x, point.y).roll];
     }
+    if (isNaN(score))
+        return 0;
     return score;
 }
 
