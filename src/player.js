@@ -8,13 +8,14 @@
  * @constructor
  * @param placement a function containing the heuristic for placement
  * @param board the game board
+ * @Param number the player's number
  * TODO figure out what data is needed
  */
 
 var utility = require('./utility');
 var _ = require('underscore');
 
-function Player(placement, board){
+function Player(placement, board, number){
     this.placement = placement;
     var resources = {sheep: 2, wood: 2, ore: 0, brick: 2, straw: 2};
     this.resourceMap = [];
@@ -24,6 +25,7 @@ function Player(placement, board){
     this.resources = resources;
     this.victoryPoints = 0;
     this.board = board;
+    this.number = number;
 }
 
 /**
