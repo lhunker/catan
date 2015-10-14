@@ -188,21 +188,35 @@ function canBuildCity (resources){
     return resources.straw >= 2 && resources.ore >= 3;
 }
 
-Player.prototype.buildSettlement = function(beginningOfGame){
+/**
+ * Handles the creation of a settlement
+ * @param beginningOfGame
+ * @param intersection optional, the intersection to place the settlement at
+ */
+Player.prototype.buildSettlement = function(beginningOfGame, intersection){
     if (!beginningOfGame) {
         this.resources.wood -= 1;
         this.resources.brick -= 1;
         this.resources.straw -= 1;
         this.resources.sheep -= 1;
     }
-    var intersection = this.getBestIntersection();
-    var structs = utility.makeStructure(intersection, this, 'settlement');
+    var intersectionToUse;
+    if (intersection){
+        intersectionToUse = intersection;
+    }
+    else {
+        intersectionToUse = this.getBestIntersection();
+    }
+    var structs = utility.makeStructure(intersectionToUse, this, 'settlement');
     this.board.addStructures([structs]);
-    var rMap = this.board.getIntersectionDist(intersection);
+    var rMap = this.board.getIntersectionDist(intersectionToUse);
     this.addStructure(rMap);
     this.victoryPoints++;
 };
 
+/**
+ * Handles the creation of a city
+ */
 Player.prototype.buildCity = function(){
     this.resources.straw -= 2;
     this.resources.ore -= 3;
