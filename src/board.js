@@ -218,7 +218,7 @@ Board.prototype.getNeighborIntersections = function(intersection) {
     // For each intersection on the board
     for (var i = 0; i < this.intersections.length; i++) {
         // Don't want to match this intersection
-        if (utility.intersectionsEqual(intersection, this.intersections[i])) continue;
+        if (utility.intersectionsEqual(intersection, this.intersections[i], false)) continue;
         var matchCount = 0;
         // Consider each X/Y coordinate pairing in specified intersection and board intersection
         for (var j = 0; j < intersection.length; j++) {

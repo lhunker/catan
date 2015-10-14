@@ -71,25 +71,43 @@ Player.prototype.addStructure = function (rMap) {
 };
 
 /**
+ * @param number Optional parameter to return multiple intersections
  * @return [] Intersection to build a settlement at
  */
-Player.prototype.getBestIntersection = function() {
+Player.prototype.getBestIntersection = function(number) {
     var intersections = this.board.intersections;
-    var maxHeuristicValue = -999999;
-    var maxIntersect = [];
+    var intersectionHeuristics = {};
     for (var i = 0; i < intersections.length; i++) {
         var intersect = intersections[i];
         // Check that intersection is buildable and has a better score than the current best
         if (this.board.isIntersectionBuildable(intersect)) {
             var value = this.placement(intersect, this.board, this.resources, this);
-            if (value > maxHeuristicValue) {
-                maxHeuristicValue = value;
-                maxIntersect = intersect;
-            }
+            if (intersectionHeuristics.hasOwnProperty(value))
+                intersectionHeuristics[value].push(intersect);
+            else
+                intersectionHeuristics[value] = [intersect];
         }
     }
 
-    return maxIntersect;
+    var keys = [];
+    _.each(intersectionHeuristics, function(val, key) {
+        if (val) {
+            keys.push(key);
+        }
+    });
+    keys.sort();
+    keys.reverse();
+
+    if (number) {
+        var values = [];
+        for (var i = 0; i < number; i += intersectionHeuristics[keys[i]].length) {
+            for (var j = 0; j < intersectionHeuristics[keys[i]].length; j++)
+                values.push(intersectionHeuristics[keys[i]][j]);
+        }
+        return values;
+    }
+
+    return intersectionHeuristics[keys[0]][0];
 };
 
 Player.prototype.getBestSettlement = function(){

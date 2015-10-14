@@ -275,7 +275,7 @@ function getUniqueIntersections(tiles) {
             var found = 0;
             // Check if in intersections already
             for (var k = 0; k < intersections.length; k++) {
-                if (intersectionsEqual(intersections[k], intersection)) {
+                if (intersectionsEqual(intersections[k], intersection, true)) {
                     found = 1;
                     break;
                 }
@@ -293,14 +293,15 @@ function getUniqueIntersections(tiles) {
  * Returns if intersections are equal (assumes points sorted deterministically)
  * @param int1 First intersection
  * @param int2 Second intersection
+ * @param ignoreHexPoint true if should ignore hex points
  * @return boolean True if equal
  */
-function intersectionsEqual(int1, int2) {
+function intersectionsEqual(int1, int2, ignoreHexPoint) {
     if (int1.length !== int2.length) return false;
     for (var i = 0; i < int1.length; i++) {
         var p1 = int1[i];
         var p2 = int2[i];
-        if (!(p1.x === p2.x && p1.y === p1.y && p1.hexPoint === p2.hexPoint))
+        if (!(p1.x === p2.x && p1.y === p1.y && (p1.hexPoint === p2.hexPoint && !ignoreHexPoint)))
             return false;
     }
     return true;
