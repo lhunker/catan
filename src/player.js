@@ -108,7 +108,7 @@ Player.prototype.getBestIntersection = function(number) {
     if (number) {
         var values = [];
         var keyIndex = 0;
-        for (var i = 0; i < number; i += intersectionHeuristics[keys[i]].length) {
+        for (var i = 0; i < number; i += intersectionHeuristics[keys[keyIndex]].length) {
             for (var j = 0; j < intersectionHeuristics[keys[keyIndex]].length; j++)
                 values.push(intersectionHeuristics[keys[keyIndex]][j]);
             keyIndex++;
