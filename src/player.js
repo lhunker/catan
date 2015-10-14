@@ -8,7 +8,6 @@
  * @constructor
  * @param placement a function containing the heuristic for placement
  * @param board the game board
- * TODO figure out what data is needed
  */
 
 var utility = require('./utility');
@@ -16,7 +15,7 @@ var _ = require('underscore');
 
 function Player(placement, board){
     this.placement = placement;
-    var resources = {sheep: 2, wood: 2, ore: 0, brick: 2, straw: 2};
+    var resources = {sheep: 0, wood: 0, ore: 0, brick: 0, straw: 0};
     this.resourceMap = [];
     for (var i = 2; i <= 12; i++){
         this.resourceMap[i] = _.clone(resources);
@@ -28,7 +27,6 @@ function Player(placement, board){
 
 /**
  * Perform move for specific turn
- * TODO figure out parameters
  */
 Player.prototype.makeMove = function(){
   var func = moveHeuristic.bind(this, this.resources);
@@ -40,7 +38,6 @@ Player.prototype.makeMove = function(){
  * @param roll the number rolled
  */
 Player.prototype.handleRoll = function (roll){
-    //TODO test function
     var _this = this;
     this.resources = _.mapObject(this.resources, function(val, key){
         return val + _this.resourceMap[roll][key];
@@ -89,6 +86,25 @@ Player.prototype.getBestIntersection = function() {
             }
         }
     }
+
+    return maxIntersect;
+};
+
+Player.prototype.getBestSettlement = function(){
+    var structures = this.board.structures;
+    var maxHeuristicValue = -999999;
+    var maxIntersect = [];
+    var _this = this;
+
+    _.each(structures, function (s){
+        if(s.player === _this && s.type === 'settlement'){  //TODO this might not work
+            var value = _this.placement(s.int, _this.board, _this.resources, _this);
+            if (value > maxHeuristicValue) {
+                maxHeuristicValue = value;
+                maxIntersect = intersect;
+            }
+        }
+    });
 
     return maxIntersect;
 };

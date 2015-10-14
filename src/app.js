@@ -15,7 +15,7 @@ board.addTiles(tiles);
 board.printBoard();
 
 //Make player 1
-var me = new Player(heuristic.h1MostResources, board);
+var me = new Player(heuristic.h3RoadsEarlyCitiesLate, board);
 var players = [];
 
 //For now assume other players use h1
@@ -35,7 +35,7 @@ console.info('Player won ' + wins + ' times');
  */
 function doInitialPlacements(){
     var placing = _.random(1, 3);
-    //TODO maybe so something special for our player
+    //TODO maybe do something special for our player
     for(var i = 0; i < 4; i++){
         players[placing].buildSettlement(true);   //TODO check params
         placing = placing === 3 ? 0 : placing +1;
