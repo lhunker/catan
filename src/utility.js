@@ -1,5 +1,6 @@
 var Tile = require('./tile');
 var _ = require('underscore');
+var fs = require('fs');
 
 // See https://i.imgur.com/Lj2sduV.jpg for basic coordinate system
 
@@ -18,10 +19,42 @@ var columnHeights = {
  * Creates a complete board for Catan
  * @returns [] An array of tiles representing a whole board
  */
- function createBoard() {
+function createBoard() {
     var tiles = createTiles();
     tiles = locateIntersections(tiles);
     return tiles;
+}
+
+/**
+ * Loads a board from a file
+ * @param file to load data from
+ * @param callback to send generated tiles
+ * @returns [] An array of tiles
+ */
+function loadBoard(file, callback) {
+    fs.readFile(file, 'utf8', function(err, data) {
+        if (err) {
+            console.log('Error opening file: ' + err);
+            process.exit(2);
+        }
+
+        data = data.split('\n');
+        var x = 0, y = 0;
+        var tiles = [];
+        for (var i = 0; i < data.length; i++) {
+            var line = data[i].split(',');
+            var tile = new Tile(x, y, line[0], line[1]);
+            tiles.push(tile);
+            x++;
+            if (x >= columnHeights[y]) {
+                x = 0;
+                y++;
+                if (y > 2) x = y - 2;
+            }
+        }
+        tiles = locateIntersections(tiles);
+        callback(tiles);
+    });
 }
 
 /**
@@ -336,6 +369,7 @@ module.exports = {
     sortPoints: sortPoints,
     makeRoad: makeRoad,
     cloneBoard: cloneBoard,
+    loadBoard: loadBoard,
     clonePlayer: clonePlayer,
     intersectionsEqual : intersectionsEqual
 };
