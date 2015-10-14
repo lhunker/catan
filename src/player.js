@@ -16,7 +16,7 @@ var _ = require('underscore');
 
 function Player(placement, board){
     this.placement = placement;
-    var resources = {sheep: 0, wood: 0, ore: 0, brick: 0, straw: 0};
+    var resources = {sheep: 2, wood: 2, ore: 0, brick: 2, straw: 2};
     this.resourceMap = [];
     for (var i = 2; i <= 12; i++){
         this.resourceMap[i] = _.clone(resources);
@@ -31,7 +31,8 @@ function Player(placement, board){
  * TODO figure out parameters
  */
 Player.prototype.makeMove = function(){
-  //TODO implement function
+  var func = moveHueristic.bind(this, this.resources);
+    func();
 };
 
 /**

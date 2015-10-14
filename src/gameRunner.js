@@ -24,7 +24,7 @@ function GameRunner(board, players){
  */
 GameRunner.prototype.run = function run(){
     var currentTurn = _.random(0, 3);
-    while(!isWinner(this.players)){
+    while(isWinner(this.players) === false){
         var die1 = _.random(1, 6);
         var die2 = _.random(1, 6);
         var roll = die1 + die2;
@@ -38,8 +38,8 @@ GameRunner.prototype.run = function run(){
         currentTurn = currentTurn === 3 ? 0 : currentTurn +1;
     }
     //Figure out which player won, output state
-    var winner = isWinner(players);
-    return winner === 0;
+    var winner = isWinner(this.players);
+    return (winner === 0);
 
 };
 

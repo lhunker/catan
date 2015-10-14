@@ -26,7 +26,7 @@ for (var i = 1; i < 4; i++){
 }
 doInitialPlacements();
 
-var wins = doRollout(board, players, 10);
+var wins = doRollout(board, players, 100);
 
 console.info('Player won ' + wins + ' times');
 
@@ -60,7 +60,7 @@ function doRollout(board, players, num){
         //copy everything
         var bClone = utility.cloneBoard(board);
         var pClone = [];
-        for (var j = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
             pClone.push(utility.clonePlayer(players[j], bClone));
         }
 
@@ -68,7 +68,10 @@ function doRollout(board, players, num){
         var res = runner.run();
 
         if (res) {
+            console.info('won');
             won++;
+        }else{
+            console.info('loss');
         }
     }
     return won;

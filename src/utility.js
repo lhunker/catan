@@ -304,7 +304,7 @@ function cloneBoard(board){
     var Board = require('./board');
     var newBoard = new Board();
     newBoard.addRoads(board.roads);
-    newBoard.addStructures(board.structures);
+    newBoard.structures = _.clone(board.structures);
     newBoard.addTiles(board.tiles);
     newBoard.intersections = board.intersections;
 

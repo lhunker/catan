@@ -4,14 +4,15 @@
  */
 
 var utility = require('./utility');
+var _ = require('underscore');
 
 /**
  * Creates an empty board class
  * @constructor
  */
 function Board(){
-    this.tiles = [];
-    this.structures = [];
+    this.tiles = {};
+    this.structures = {};
     this.roads = [];
     this.intersections = [];        //TODO fill this in
     this.dieProbabilities = {   //TODO move this to utility
@@ -34,6 +35,7 @@ function Board(){
  * @param tiles an array of tile objects to add to the board
  */
 Board.prototype.addTiles = function addTiles(tiles){
+    tiles = _.toArray(tiles);
     var _this = this;
     tiles.forEach(function (t){
         _this.tiles[JSON.stringify(t.getIndices())] = t;
@@ -62,8 +64,8 @@ Board.prototype.addRoads = function addRoads(roads){
 Board.prototype.addStructures = function addStructures(structs){
     var _this = this;
     structs.forEach(function(s){
-        //TODO change once structure class is more defined
-        _this.structures[JSON.stringify(s.intersection)] = s;
+        //console.info(JSON.stringify(s.int));
+        _this.structures[JSON.stringify(s.int)] = s;
     });
 };
 

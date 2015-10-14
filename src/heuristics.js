@@ -15,7 +15,7 @@ function h1MostResources(intersection, board){
     var score = 0;
     for (var i = 0; i < intersection.length; i++) {
         var point = intersection[i];
-        console.info(point.x + ' ' + point.y);
+        //console.info(point.x + ' ' + point.y);
         score += board.dieProbabilities[board.tileAt(point.x, point.y).roll];
     }
     return score;
