@@ -33,21 +33,22 @@ function h1MostResources(intersection, board, resources, player){
  * minus a multiplier for each duplicate resource
  */
 function h2DiversifyResources(intersection, board, resources, player){
-    var score = h1MostResources(intersection, board);
-    var intDist= board.getIntersectionDist(intersection);
-
-    for (var i = 0; i < intDist.length; i++){
-        score -= 0.25 * (resources[intDist[i]]);     // TODO: Let's check this
-    }
-
-    for (i = 0; i < intDist.length; i++){
-        for (var j = i; j < intDist.length; j++){
-            if (intDist[i] === intDist[j]){
-                score -= 0.25;
-            }
+    var score = 0;
+    for (var i = 0; i < intersection.length; i++) {
+        var point = intersection[i];
+        var tile = board.tileAt(point.x, point.y);
+        var prob = board.dieProbabilities[tile.roll];
+        // Assuming utility of one
+        var existingProb = 0;
+        for (var j = 2; j < 13; j++) {
+            if (player.resourceMap[j][tile.resource] !== 0)
+                existingProb += board.dieProbabilities[j];
         }
+
+        score += prob * existingProb;
     }
 
+    console.log(score);
     return score;
 }
 
