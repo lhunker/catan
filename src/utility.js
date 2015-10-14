@@ -382,6 +382,8 @@ function clonePlayer(player, board, number){
         newPlayer.resourceMap[i] = _.clone(player.resourceMap[i]);
     }
     newPlayer.victoryPoints = player.victoryPoints;
+    newPlayer.availSettle = player.availSettle;
+    newPlayer.availCities = player.availCities;
     return newPlayer;
 }
 
