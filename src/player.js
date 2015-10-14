@@ -31,7 +31,7 @@ function Player(placement, board){
  * TODO figure out parameters
  */
 Player.prototype.makeMove = function(){
-  var func = moveHueristic.bind(this, this.resources);
+  var func = moveHeuristic.bind(this, this.resources);
     func();
 };
 
@@ -97,7 +97,7 @@ Player.prototype.getBestIntersection = function() {
  * Determine which move is best
  * @param resources the player's current resources
  */
-function moveHueristic(resources){
+function moveHeuristic(resources){
     if(canBuildSettlement(resources)){
         this.buildSettlement();
     } else if (canBuildCity(resources)){
