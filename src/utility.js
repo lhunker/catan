@@ -369,6 +369,7 @@ module.exports = {
     sortPoints: sortPoints,
     makeRoad: makeRoad,
     cloneBoard: cloneBoard,
+    loadBoard: loadBoard,
     clonePlayer: clonePlayer,
     intersectionsEqual : intersectionsEqual
 };
